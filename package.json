@@ -1,0 +1,51 @@
+{
+  "name": "games-web",
+  "displayName": "Infinite Token Games",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Free, ad-free games from Infinite Token. Play them in your browser.",
+  "author": "Jay Deaton",
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "fix": "eslint . --fix",
+    "generate": "nuxt generate",
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "preview": "nuxt preview",
+    "release": "git push --follow-tags",
+    "release:major": "npm version major && npm run release",
+    "release:minor": "npm version minor && npm run release",
+    "release:patch": "npm version patch && npm run release",
+    "test": "NODE_OPTIONS=--no-experimental-webstorage vitest run",
+    "test:watch": "NODE_OPTIONS=--no-experimental-webstorage vitest",
+    "typecheck": "nuxt typecheck",
+    "verify": "npm run lint && npm test && npm run typecheck && npm run build",
+    "preversion": "npm ci && npm run verify"
+  },
+  "prettier": "@infinitetoken/eslint-config/prettier",
+  "overrides": {
+    "esbuild": "^0.28.1"
+  },
+  "dependencies": {
+    "@nuxtjs/color-mode": "^4.0.0",
+    "@tailwindcss/vite": "^4.3.0",
+    "nuxt": "^4.4.6",
+    "tailwindcss": "^4.3.0",
+    "vue": "^3.5.13",
+    "vue-router": "^5.1.0"
+  },
+  "devDependencies": {
+    "@infinitetoken/eslint-config": "^0.1.4",
+    "@nuxt/test-utils": "^4.0.3",
+    "@types/node": "^25.0.0",
+    "@vue/test-utils": "^2.4.10",
+    "eslint": "^10.4.1",
+    "happy-dom": "^20.9.0",
+    "prettier": "^3.8.3",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.7",
+    "vue-tsc": "^3.3.3"
+  }
+}
