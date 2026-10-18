@@ -74,6 +74,16 @@ export const TASTIC_GAMES: TasticGame[] = [
     icon: '/images/tastic/snake.png',
     repo: 'https://github.com/jayrdeaton/Snake',
     origin: 'https://snake-drab-kappa.vercel.app'
+  },
+  {
+    slug: 'boxhockey',
+    name: 'BoxHockey',
+    author: AUTHORS.jay,
+    storeName: 'BoxHockeyTastic',
+    description: "Physics-driven tabletop box hockey. Flick the puck through the gaps and into the other player's goal, against the CPU or a friend across the table.",
+    icon: '/images/tastic/boxhockey.png',
+    repo: 'https://github.com/jayrdeaton/BoxHockey',
+    origin: 'https://boxhockey.vercel.app'
   }
 ]
 
@@ -88,13 +98,6 @@ export type UpcomingGame = {
 
 /** Tastic games on the way: shown with a Coming Soon badge and no Play button, and moved to TASTIC_GAMES when they ship */
 export const COMING_SOON: UpcomingGame[] = [
-  {
-    name: 'BoxHockey',
-    author: AUTHORS.jay,
-    description: "Physics-driven tabletop box hockey. Flick the puck through the gaps and into the other player's goal, against the CPU or a friend across the table.",
-    icon: '/images/tastic/boxhockey.png',
-    repo: 'https://github.com/jayrdeaton/BoxHockey'
-  },
   {
     name: 'AirHockey',
     author: AUTHORS.jay,

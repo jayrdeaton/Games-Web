@@ -9,5 +9,9 @@ export const vercelRoutes = (games: { slug: string; origin: string }[]): VercelR
     // Expo Router's home route under a base URL is /<slug>/, and a relative asset URL resolved from /<slug> would
     // miss the game's folder, so the bare path redirects first
     { src: `^/${slug}$`, status: 308, headers: { Location: `/${slug}/` } },
+    // The home page itself goes to the game's bare /<slug>: a game built with cleanUrls (static output) serves its
+    // home there and answers 404 at /<slug>/, which its /:game/:path* catch-all doesn't match (live on Snake,
+    // LightCycles and BoxHockey, 2026-10-18). Every game serves the same page at the bare path, so this is safe for all.
+    { src: `^/${slug}/$`, dest: `${origin}/${slug}` },
     { src: `^/${slug}/(.*)$`, dest: `${origin}/${slug}/$1` }
   ])

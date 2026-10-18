@@ -14,8 +14,11 @@ const resolve = (path: string) => {
 }
 
 describe('vercelRoutes', () => {
-  it.each(TASTIC_GAMES)('proxies /$slug/ and everything under it to the same path on its own deployment', ({ slug, origin }) => {
-    expect(resolve(`/${slug}/`)).toEqual({ proxy: `${origin}/${slug}/` })
+  it.each(TASTIC_GAMES)('proxies /$slug/ to the bare /$slug on its own deployment, where cleanUrls serves the home page', ({ slug, origin }) => {
+    expect(resolve(`/${slug}/`)).toEqual({ proxy: `${origin}/${slug}` })
+  })
+
+  it.each(TASTIC_GAMES)('proxies everything under /$slug/ to the same path on its own deployment', ({ slug, origin }) => {
     expect(resolve(`/${slug}/_expo/static/js/web/entry.js`)).toEqual({ proxy: `${origin}/${slug}/_expo/static/js/web/entry.js` })
     expect(resolve(`/${slug}/canvaskit.wasm`)).toEqual({ proxy: `${origin}/${slug}/canvaskit.wasm` })
   })
