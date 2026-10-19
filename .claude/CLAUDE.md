@@ -4,7 +4,7 @@ This file provides guidance to Claude Code when working in this repository.
 
 # Games-Web
 
-The hub at https://games.infinitetoken.com, created 2026-10-17. It lists the Tastic games (Solitaire, Hangman, LightCycles, Snake) and the 6502 cartridges (Snake, Pong, LightCycles), hosts the one privacy policy and support page for all of them, and puts every Tastic game's web version on this one origin at `/<slug>/`. The point of the single origin: localStorage is per origin, so only on one origin can the web games share player profiles the way the iOS apps do through the App Group `group.com.infinitetoken.tastic` (the web side of that lives in `@tastic/profile`). Before this, each game had its own subdomain (`<slug>.infinitetoken.com`); those now redirect here, from each game's own `vercel.json`.
+The hub at https://games.infinitetoken.com, created 2026-10-17. It lists the Tastic games (Solitaire, Hangman, LightCycles, Snake, BoxHockey), the ones coming soon, and the 6502 cartridges (Snake, Pong, LightCycles, and A.C. Wright's Wizards Lab), hosts the one privacy policy and support page for all of them, and puts every Tastic game's web version on this one origin at `/<slug>/`. The point of the single origin: localStorage is per origin, so only on one origin can the web games share player profiles the way the iOS apps do through the App Group `group.com.infinitetoken.tastic` (the web side of that lives in `@tastic/profile`). Before this, each game had its own subdomain (`<slug>.infinitetoken.com`); those now redirect here, from each game's own `vercel.json`.
 
 ## Commands
 

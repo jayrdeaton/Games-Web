@@ -50,7 +50,7 @@ export const TASTIC_GAMES: TasticGame[] = [
     name: 'Hangman',
     author: AUTHORS.jay,
     storeName: 'HangmanTastic',
-    description: 'The classic word-guessing game. 19,700 puzzles across 58 packs, hand-drawn art, and Pass & Play with friends.',
+    description: 'The classic word-guessing game. 19k+ puzzles across 50+ packs, hand-drawn art, and Pass & Play with friends.',
     icon: '/images/tastic/hangman.png',
     repo: 'https://github.com/jayrdeaton/Hangman',
     origin: 'https://hangman-teal-psi.vercel.app'
