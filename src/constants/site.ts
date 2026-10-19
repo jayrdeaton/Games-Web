@@ -59,7 +59,7 @@ export const TASTIC_GAMES: TasticGame[] = [
     slug: 'lightcycles',
     name: 'LightCycles',
     author: AUTHORS.jay,
-    storeName: 'LightCyclesTastic',
+    storeName: 'LightCycleTastic',
     description: 'A light-cycle duel for two players on one screen, or one player against the CPU. Last rider still riding wins the round.',
     icon: '/images/tastic/lightcycles.png',
     repo: 'https://github.com/jayrdeaton/LightCycles',
