@@ -5,13 +5,13 @@ import { describe, expect, it } from 'vitest'
 
 import App from '~/app.vue'
 import TipCard from '~/components/TipCard.vue'
-import { AUTHORS, CARTRIDGES, COMING_SOON, EMULATOR, SITE, TASTIC_GAMES } from '~/constants/site'
+import { AUTHORS, CARTRIDGES, COMING_SOON, EMULATOR, MORE_TO_PLAY, SITE, TASTIC_GAMES } from '~/constants/site'
 
 describe('home page', () => {
   it('renders the title and every game', async () => {
     const wrapper = await mountSuspended(App, { route: '/' })
     expect(wrapper.find('h1').text()).toBe(SITE.name)
-    for (const name of [...TASTIC_GAMES.map((g) => g.name), ...CARTRIDGES.map((c) => c.name)]) expect(wrapper.text()).toContain(name)
+    for (const name of [...TASTIC_GAMES, ...MORE_TO_PLAY, ...CARTRIDGES].map((g) => g.name)) expect(wrapper.text()).toContain(name)
   })
 
   it('lists the coming-soon games with a badge and no Play button', async () => {
@@ -35,6 +35,40 @@ describe('home page', () => {
       const play = wrapper.find(`a[href="/${game.slug}/"]`)
       expect(play.exists()).toBe(true)
       expect(play.text()).toBe('Play')
+    }
+  })
+
+  it('links each app in More to Play out to its own site', async () => {
+    const wrapper = await mountSuspended(App, { route: '/' })
+    for (const app of MORE_TO_PLAY) expect(wrapper.find(`#more a[href="${app.url}"]`).text()).toBe('Play')
+  })
+
+  it('shows a store button only for a listing that is set', async () => {
+    const [game] = TASTIC_GAMES
+    const [app] = MORE_TO_PLAY
+    const before = await mountSuspended(App, { route: '/' })
+    expect(before.findAll('a').filter((a) => ['App Store', 'Google Play'].includes(a.text()))).toHaveLength(0)
+    game!.appStore = 'https://apps.apple.com/app/id1'
+    app!.googlePlay = 'https://play.google.com/store/apps/details?id=com.example'
+    try {
+      const after = await mountSuspended(App, { route: '/' })
+      expect(after.find(`a[href="${game!.appStore}"]`).text()).toBe('App Store')
+      expect(after.find(`a[href="${app!.googlePlay}"]`).text()).toBe('Google Play')
+      expect(after.findAll('a').filter((a) => ['App Store', 'Google Play'].includes(a.text()))).toHaveLength(2)
+    } finally {
+      delete game!.appStore
+      delete app!.googlePlay
+    }
+  })
+
+  it('says the Tastic games are coming to the App Store until every one is there', async () => {
+    const intro = async () => (await mountSuspended(App, { route: '/' })).find('#tastic p').text()
+    expect(await intro()).toContain('coming to the App Store')
+    for (const game of TASTIC_GAMES) game.appStore = 'https://apps.apple.com/app/id1'
+    try {
+      expect(await intro()).not.toContain('coming')
+    } finally {
+      for (const game of TASTIC_GAMES) delete game.appStore
     }
   })
 
@@ -82,7 +116,7 @@ describe('tip card', () => {
 describe('credits', () => {
   it('shows every game with a byline linked to its author', async () => {
     const home = await mountSuspended(App, { route: '/' })
-    const games = [...TASTIC_GAMES, ...COMING_SOON, ...CARTRIDGES]
+    const games = [...TASTIC_GAMES, ...MORE_TO_PLAY, ...COMING_SOON, ...CARTRIDGES]
     for (const author of new Set(games.map((g) => g.author))) {
       const bylines = home.findAll(`a[href="${author.url}"]`).filter((a) => a.text() === author.name)
       expect(bylines).toHaveLength(games.filter((g) => g.author === author).length)
@@ -98,7 +132,7 @@ describe('credits', () => {
   })
 
   it('credits Wizards Lab to A.C. Wright and every other game to Jay', () => {
-    for (const game of [...TASTIC_GAMES, ...COMING_SOON, ...CARTRIDGES]) expect(game.author).toBe(game.name === 'Wizards Lab' ? AUTHORS.aaron : AUTHORS.jay)
+    for (const game of [...TASTIC_GAMES, ...MORE_TO_PLAY, ...COMING_SOON, ...CARTRIDGES]) expect(game.author).toBe(game.name === 'Wizards Lab' ? AUTHORS.aaron : AUTHORS.jay)
   })
 })
 
@@ -116,7 +150,7 @@ describe('privacy and support', () => {
 })
 
 describe('site content', () => {
-  const all = JSON.stringify({ SITE, AUTHORS, TASTIC_GAMES, COMING_SOON, CARTRIDGES, EMULATOR })
+  const all = JSON.stringify({ SITE, AUTHORS, TASTIC_GAMES, MORE_TO_PLAY, COMING_SOON, CARTRIDGES, EMULATOR })
 
   it('has no em or en dashes anywhere', () => {
     // Built from char codes so formatters can't turn the escapes back into literal dashes
@@ -128,11 +162,20 @@ describe('site content', () => {
   })
 
   it('names each store listing after its game, plus "Tastic"', () => {
-    for (const game of TASTIC_GAMES) expect(game.storeName).toBe(`${game.name}Tastic`)
+    // Jay named LightCycles' listing LightCycleTastic (2026-10-19)
+    const exceptions: Record<string, string> = { LightCycles: 'LightCycleTastic' }
+    for (const game of TASTIC_GAMES) expect(game.storeName).toBe(exceptions[game.name] ?? `${game.name}Tastic`)
+  })
+
+  it('links store listings in their short, region-free form', () => {
+    for (const game of [...TASTIC_GAMES, ...MORE_TO_PLAY]) {
+      if (game.appStore) expect(game.appStore).toMatch(/^https:\/\/apps\.apple\.com\/app\/id\d+$/)
+      if (game.googlePlay) expect(game.googlePlay).toMatch(/^https:\/\/play\.google\.com\/store\/apps\/details\?id=[\w.]+$/)
+    }
   })
 
   it('pins every cartridge to a commit and ships every image it references', () => {
     for (const cart of CARTRIDGES) expect(cart.cart).toMatch(/^https:\/\/raw\.githubusercontent\.com\/[\w-]+\/[\w-]+\/[0-9a-f]{40}\/[\w/-]+\.crt$/)
-    for (const image of [...TASTIC_GAMES.map((g) => g.icon), ...COMING_SOON.map((g) => g.icon), ...CARTRIDGES.map((c) => c.screenshot)]) expect(existsSync(`public${image}`)).toBe(true)
+    for (const image of [...TASTIC_GAMES.map((g) => g.icon), ...MORE_TO_PLAY.flatMap((a) => [a.icon, a.iconLight ?? a.icon]), ...COMING_SOON.map((g) => g.icon), ...CARTRIDGES.map((c) => c.screenshot)]) expect(existsSync(`public${image}`)).toBe(true)
   })
 })

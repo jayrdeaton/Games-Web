@@ -17,13 +17,22 @@ export const AUTHORS = {
   aaron: { name: 'A.C. Wright', url: 'https://acwrightdesign.com' }
 } satisfies Record<string, Author>
 
-export type TasticGame = {
+/** A game's store listings, each set only once it's live, so its card shows a button for it. The App Store link is
+ *  https://apps.apple.com/app/id<the app's Apple ID>, the Google Play one https://play.google.com/store/apps/details?id=<its
+ *  android.package>. The site-alignment check looks each game up by bundle ID and flags one that's live but not linked. */
+export type StoreLinks = {
+  appStore?: string
+  googlePlay?: string
+}
+
+export type TasticGame = StoreLinks & {
   /** The path the game is served at (games.infinitetoken.com/<slug>/), its old subdomain, and its Vercel project's name */
   slug: string
   /** The home-screen and web name */
   name: string
   author: Author
-  /** The App Store name: always the name plus "Tastic" */
+  /** The App Store name, the game's eas.json submit.production.ios.appName: the name plus "Tastic", except
+   *  LightCycleTastic (Jay, 2026-10-19) */
   storeName: string
   description: string
   /** The game's splash art (assets/images/splash-dark.png at 192px): transparent, so it reads on light and dark cards */
@@ -84,6 +93,33 @@ export const TASTIC_GAMES: TasticGame[] = [
     icon: '/images/tastic/boxhockey.png',
     repo: 'https://github.com/jayrdeaton/BoxHockey',
     origin: 'https://boxhockey.vercel.app'
+  }
+]
+
+export type OtherApp = StoreLinks & {
+  name: string
+  author: Author
+  description: string
+  /** Its splash art at 192px, like the Tastic icons */
+  icon: string
+  /** Its light splash, for splash art that's white and would vanish on a light card */
+  iconLight?: string
+  /** Its own site: these aren't proxied under /<slug>/ */
+  url: string
+  repo: string
+}
+
+/** Infinite Token apps that aren't Tastic games. They don't share player profiles, and each has its own site, privacy
+ *  policy and support page, so their cards link out and the privacy and support pages here leave them out. */
+export const MORE_TO_PLAY: OtherApp[] = [
+  {
+    name: 'Swirlio',
+    author: AUTHORS.jay,
+    description: "A hands-on kaleidoscope you can push, pinch, and twist. Fill it with colors and bouncing beads and mirror it up to twelve ways. There's nothing to win, just a pattern to play with.",
+    icon: '/images/swirlio.png',
+    iconLight: '/images/swirlio-light.png',
+    url: 'https://swirlio.infinitetoken.com',
+    repo: 'https://github.com/jayrdeaton/Swirlio'
   }
 ]
 
