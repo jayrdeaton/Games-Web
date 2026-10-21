@@ -92,7 +92,8 @@ export const TASTIC_GAMES: TasticGame[] = [
     description: "Physics-driven tabletop box hockey. Flick the puck through the gaps and into the other player's goal, against the CPU or a friend across the table.",
     icon: '/images/tastic/boxhockey.png',
     repo: 'https://github.com/jayrdeaton/BoxHockey',
-    origin: 'https://boxhockey.vercel.app'
+    origin: 'https://boxhockey.vercel.app',
+    appStore: 'https://apps.apple.com/app/id6824717751'
   }
 ]
 
@@ -119,7 +120,8 @@ export const MORE_TO_PLAY: OtherApp[] = [
     icon: '/images/swirlio.png',
     iconLight: '/images/swirlio-light.png',
     url: 'https://swirlio.infinitetoken.com',
-    repo: 'https://github.com/jayrdeaton/Swirlio'
+    repo: 'https://github.com/jayrdeaton/Swirlio',
+    appStore: 'https://apps.apple.com/app/id6824430243'
   }
 ]
 

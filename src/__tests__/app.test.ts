@@ -44,17 +44,20 @@ describe('home page', () => {
   })
 
   it('shows a store button only for a listing that is set', async () => {
-    const [game] = TASTIC_GAMES
-    const [app] = MORE_TO_PLAY
+    const isStoreButton = (link: { text: () => string }) => ['App Store', 'Google Play'].includes(link.text())
+    const listed = [...TASTIC_GAMES, ...MORE_TO_PLAY].flatMap((entry) => [entry.appStore, entry.googlePlay]).filter(Boolean)
     const before = await mountSuspended(App, { route: '/' })
-    expect(before.findAll('a').filter((a) => ['App Store', 'Google Play'].includes(a.text()))).toHaveLength(0)
+    expect(before.findAll('a').filter(isStoreButton)).toHaveLength(listed.length)
+    for (const href of listed) expect(before.find(`a[href="${href}"]`).exists()).toBe(true)
+    const game = TASTIC_GAMES.find((entry) => !entry.appStore)
+    const app = MORE_TO_PLAY.find((entry) => !entry.googlePlay)
     game!.appStore = 'https://apps.apple.com/app/id1'
     app!.googlePlay = 'https://play.google.com/store/apps/details?id=com.example'
     try {
       const after = await mountSuspended(App, { route: '/' })
       expect(after.find(`a[href="${game!.appStore}"]`).text()).toBe('App Store')
       expect(after.find(`a[href="${app!.googlePlay}"]`).text()).toBe('Google Play')
-      expect(after.findAll('a').filter((a) => ['App Store', 'Google Play'].includes(a.text()))).toHaveLength(2)
+      expect(after.findAll('a').filter(isStoreButton)).toHaveLength(listed.length + 2)
     } finally {
       delete game!.appStore
       delete app!.googlePlay
@@ -64,11 +67,15 @@ describe('home page', () => {
   it('says the Tastic games are coming to the App Store until every one is there', async () => {
     const intro = async () => (await mountSuspended(App, { route: '/' })).find('#tastic p').text()
     expect(await intro()).toContain('coming to the App Store')
-    for (const game of TASTIC_GAMES) game.appStore = 'https://apps.apple.com/app/id1'
+    const listings = TASTIC_GAMES.map((game) => game.appStore)
+    for (const game of TASTIC_GAMES) game.appStore ??= 'https://apps.apple.com/app/id1'
     try {
       expect(await intro()).not.toContain('coming')
     } finally {
-      for (const game of TASTIC_GAMES) delete game.appStore
+      TASTIC_GAMES.forEach((game, index) => {
+        if (listings[index]) game.appStore = listings[index]
+        else delete game.appStore
+      })
     }
   })
 
