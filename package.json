@@ -1,7 +1,7 @@
 {
   "name": "games-web",
   "displayName": "Infinite Token Games",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": true,
   "description": "Free, ad-free games from Infinite Token. Play them in your browser.",
   "author": "Jay Deaton",
