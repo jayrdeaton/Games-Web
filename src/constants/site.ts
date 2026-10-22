@@ -38,7 +38,7 @@ export type StoreLinks = {
 }
 
 export type TasticGame = StoreLinks & {
-  /** The path the game is served at (games.infinitetoken.com/<slug>/), its old subdomain, and its Vercel project's name */
+  /** The path the game is served at (games.infinitetoken.com/<slug>/) and its Vercel project's name */
   slug: string
   /** The home-screen and web name */
   name: string
