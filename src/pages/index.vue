@@ -6,12 +6,14 @@
       <!-- The backdrop fades out at the bottom: the hero is short, so its edge would show as a line across the page -->
       <div class="absolute inset-0 mask-b-from-40% pointer-events-none" aria-hidden="true">
         <div class="absolute inset-0 dot-grid opacity-40" />
-        <div class="absolute -top-24 -left-48 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-3xl" />
-        <div class="absolute top-0 -right-48 w-[500px] h-[500px] bg-violet-600/10 rounded-full blur-3xl" />
+        <!-- On their own GPU layers (transform-gpu): otherwise iOS Safari re-blurs the patch under the animated canvas
+             separately and its rectangle shows. No CSS filter on LogoStack (drop-shadow) for the same reason -->
+        <div class="absolute -top-24 -left-48 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-3xl transform-gpu" />
+        <div class="absolute top-0 -right-48 w-[500px] h-[500px] bg-violet-600/10 rounded-full blur-3xl transform-gpu" />
       </div>
 
       <div class="relative z-10 text-center max-w-4xl mx-auto">
-        <LogoStack :width="120" class="mx-auto mb-2 drop-shadow-xl" />
+        <LogoStack :width="120" class="mx-auto mb-2" />
         <h1 class="text-4xl md:text-5xl font-bold tracking-tight leading-tight mb-4">
           <span class="text-white">{{ SITE.company.name }}</span
           >{{ ' ' }}<span class="bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">Games</span>
