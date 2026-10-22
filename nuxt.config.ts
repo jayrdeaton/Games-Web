@@ -6,32 +6,31 @@ import type {} from './.nuxt/nuxt.node.d.ts'
 import { CARTRIDGES, SITE, TASTIC_GAMES } from './src/constants/site'
 import { vercelRoutes } from './src/utils/vercelRoutes'
 const pkg: { displayName: string; description: string } = JSON.parse(readFileSync('./package.json', 'utf-8'))
+const title = `${SITE.company.name} | Games`
 export default defineNuxtConfig({
   compatibilityDate: '2025-11-01',
   srcDir: 'src',
   devtools: { enabled: true },
   // No @vite-pwa/nuxt, unlike the siblings: a service worker scoped to / would also control the proxied games under
-  // /<slug>/ and could answer their navigations with this site's cached pages
-  modules: ['@nuxtjs/color-mode'],
+  // /<slug>/ and could answer their navigations with this site's cached pages. No @nuxtjs/color-mode either: the site
+  // is dark only, like www.infinitetoken.com.
   vite: {
     plugins: [tailwindcss()]
   },
-  colorMode: {
-    classSuffix: ''
-  },
   app: {
     head: {
-      title: pkg.displayName,
+      // "Infinite Token | Games", like www.infinitetoken.com's "Infinite Token | Software Development"
+      title,
       meta: [
-        { name: 'viewport', content: 'width=device-width, initial-scale=1.0, viewport-fit=cover' },
         { name: 'description', content: pkg.description },
+        { name: 'theme-color', content: '#09090b' },
         { property: 'og:type', content: 'website' },
         { property: 'og:site_name', content: pkg.displayName },
-        { property: 'og:title', content: pkg.displayName },
+        { property: 'og:title', content: title },
         { property: 'og:description', content: pkg.description },
         { property: 'og:url', content: SITE.url },
         { name: 'twitter:card', content: 'summary' },
-        { name: 'twitter:title', content: pkg.displayName },
+        { name: 'twitter:title', content: title },
         { name: 'twitter:description', content: pkg.description }
       ],
       link: [

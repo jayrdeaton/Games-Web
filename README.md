@@ -4,7 +4,7 @@ The home of [Infinite Token Games](https://games.infinitetoken.com): one site fo
 
 - `/`: every game
 - `/solitaire/`, `/hangman/`, `/lightcycles/`, `/snake/`: the Tastic games' web versions. Each one is its own repo and Vercel project, proxied here so all of them share one origin, which lets them share player profiles.
-- `/6502/snake`, `/6502/pong`, `/6502/lightcycles`: the 6502 cartridges, running in [A.C. Wright's AC6502 emulator](https://github.com/acwright/6502-EMULATOR)
+- `/6502/wizardslab`, `/6502/snake`, `/6502/lightcycles`: the 6502 cartridges, running in [A.C. Wright's AC6502 emulator](https://github.com/acwright/6502-EMULATOR)
 - `/privacy`, `/support`
 
 ## Development

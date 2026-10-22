@@ -1,11 +1,14 @@
 <template>
-  <main class="max-w-3xl mx-auto w-full px-6 pt-10 pb-10">
+  <!-- A reading column, like www's legal pages; the home page is the wide one -->
+  <main class="max-w-3xl mx-auto w-full px-6 pt-10 pb-16">
     <div class="mb-6">
-      <NuxtLink to="/" :class="backLink">← All Games</NuxtLink>
+      <NuxtLink to="/" :class="backLink"
+        ><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18" /></svg> All Games</NuxtLink
+      >
     </div>
 
-    <h1 class="text-3xl font-bold tracking-tight mb-2">Support</h1>
-    <p class="text-gray-500 dark:text-zinc-400 leading-relaxed mb-8">Found a bug, have an idea, or need a hand? We'd love to hear from you.</p>
+    <h1 class="text-3xl font-bold tracking-tight text-white mb-2">Support</h1>
+    <p class="text-zinc-400 leading-relaxed mb-8">Found a bug, have an idea, or need a hand? We'd love to hear from you.</p>
 
     <div class="space-y-4">
       <div :class="card">
@@ -39,5 +42,5 @@
 import { CARTRIDGES, SITE, TASTIC_GAMES } from '~/constants/site'
 import { backLink, body, card, link, primaryButton } from '~/constants/styles'
 
-useHead({ title: `Support · ${SITE.name}` })
+useHead({ title: `${SITE.name} | Support` })
 </script>

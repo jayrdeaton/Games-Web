@@ -29,7 +29,6 @@
     "esbuild": "^0.28.1"
   },
   "dependencies": {
-    "@nuxtjs/color-mode": "^4.0.0",
     "@tailwindcss/vite": "^4.3.0",
     "nuxt": "^4.4.6",
     "tailwindcss": "^4.3.0",

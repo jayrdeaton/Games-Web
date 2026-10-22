@@ -1,5 +1,7 @@
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *));
+
+/* Dark only, like www.infinitetoken.com. The system font rather than www's Inter: Inter comes from Google Fonts there,
+   and loading it here would send every visitor's IP to Google, which the privacy policy doesn't allow for. */
 
 * {
   touch-action: manipulation;
@@ -13,41 +15,19 @@ html {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgb(255 255 255);
-  color-scheme: light;
-  height: 100%;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    background-color: rgb(24 24 27);
-    color-scheme: dark;
-  }
-}
-
-html.dark {
-  background-color: rgb(24 24 27);
+  background-color: #09090b; /* zinc-950 */
   color-scheme: dark;
 }
 
 body {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  background-color: transparent;
+  background-color: #09090b; /* zinc-950 */
+  color: #fff;
 }
 
-#__nuxt {
-  height: calc(100% + env(safe-area-inset-bottom));
-  overflow-y: auto;
-  overscroll-behavior: none;
-  background-color: transparent;
-}
-
-/* Prevent iOS Safari from zooming on input focus (requires font-size >= 16px) */
-@supports (-webkit-touch-callout: none) {
-  input,
-  select {
-    font-size: 16px !important;
+/* The hero's backdrop, from www */
+@layer utilities {
+  .dot-grid {
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 28px 28px;
   }
 }

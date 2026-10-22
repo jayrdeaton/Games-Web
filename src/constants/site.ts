@@ -11,6 +11,18 @@ export const SITE = {
 
 export type Author = { name: string; url: string }
 
+/** The home page's sections in page order: the headings over their cards, and the header's tabs (`short` below lg, so
+ *  the four fit beside the logo on a phone) */
+export const SECTIONS = [
+  { id: 'tastic', label: 'Tastic Games', short: 'Tastic' },
+  { id: 'coming-soon', label: 'Coming Soon', short: 'Coming Soon' },
+  { id: '6502', label: '6502 Cartridges', short: '6502' },
+  // Last (Jay, 2026-10-22): not Tastic games, each on its own site
+  { id: 'more', label: 'More to Play', short: 'More' }
+] as const
+
+export type SectionId = (typeof SECTIONS)[number]['id']
+
 /** Who made each game: every game card and 6502 page shows its author's byline, linked to their site */
 export const AUTHORS = {
   jay: { name: 'Jay Deaton', url: 'https://jaydeaton.com' },
@@ -35,7 +47,7 @@ export type TasticGame = StoreLinks & {
    *  LightCycleTastic (Jay, 2026-10-19) */
   storeName: string
   description: string
-  /** The game's splash art (assets/images/splash-dark.png at 192px): transparent, so it reads on light and dark cards */
+  /** The game's splash art (assets/images/splash-dark.png at 192px), transparent, drawn bare on the dark card */
   icon: string
   repo: string
   /** The game's own production deployment, which /<slug>/ is proxied to (see src/utils/vercelRoutes.ts). The
@@ -103,8 +115,6 @@ export type OtherApp = StoreLinks & {
   description: string
   /** Its splash art at 192px, like the Tastic icons */
   icon: string
-  /** Its light splash, for splash art that's white and would vanish on a light card */
-  iconLight?: string
   /** Its own site: these aren't proxied under /<slug>/ */
   url: string
   repo: string
@@ -118,7 +128,6 @@ export const MORE_TO_PLAY: OtherApp[] = [
     author: AUTHORS.jay,
     description: "A hands-on kaleidoscope you can push, pinch, and twist. Fill it with colors and bouncing beads and mirror it up to twelve ways. There's nothing to win, just a pattern to play with.",
     icon: '/images/swirlio.png',
-    iconLight: '/images/swirlio-light.png',
     url: 'https://swirlio.infinitetoken.com',
     repo: 'https://github.com/jayrdeaton/Swirlio',
     appStore: 'https://apps.apple.com/app/id6824430243'
@@ -165,9 +174,28 @@ export type Cartridge = {
    *  raw.githubusercontent.com sends Access-Control-Allow-Origin: *, which the emulator's cross-origin fetch needs. */
   cart: string
   controls: { keys: string; action: string }[]
+  /** Kept off the site for now (no card, page, or support line); drop the flag to bring it back */
+  hidden?: boolean
 }
 
-export const CARTRIDGES: Cartridge[] = [
+const ALL_CARTRIDGES: Cartridge[] = [
+  {
+    slug: 'wizardslab',
+    name: 'Wizards Lab',
+    author: AUTHORS.aaron,
+    description: 'Potions rain down in vials of six colors. Line up three or more to make them react and vanish, and set off the arcane reagents for chain reactions.',
+    screenshot: '/images/6502/wizardslab.png',
+    repo: 'https://github.com/acwright/WIZARDSLAB',
+    cart: 'https://raw.githubusercontent.com/acwright/WIZARDSLAB/59ed3d64f4efa5b0977fe264be3cf0b228e6a7dc/AC6502/WizardsLab.crt',
+    controls: [
+      { keys: 'Space or Return', action: 'Start' },
+      { keys: 'Arrow keys or A, D', action: 'Move' },
+      { keys: 'Up arrow or W', action: 'Rotate' },
+      { keys: 'Space or Q', action: 'Rotate back' },
+      { keys: 'Down arrow or S', action: 'Drop faster' },
+      { keys: 'P', action: 'Pause' }
+    ]
+  },
   {
     slug: 'snake',
     name: 'Snake',
@@ -193,7 +221,9 @@ export const CARTRIDGES: Cartridge[] = [
       { keys: 'W and S', action: 'Move the left paddle' },
       { keys: 'Up and Down arrows', action: 'Move the right paddle' },
       { keys: 'Space', action: 'Choose a mode, pause, and resume' }
-    ]
+    ],
+    // Hidden 2026-10-22 (Jay): not fully fleshed out yet
+    hidden: true
   },
   {
     slug: 'lightcycles',
@@ -208,25 +238,11 @@ export const CARTRIDGES: Cartridge[] = [
       { keys: 'Arrow keys', action: 'Steer the second cycle' },
       { keys: 'Space', action: 'Start, pause, and resume' }
     ]
-  },
-  {
-    slug: 'wizardslab',
-    name: 'Wizards Lab',
-    author: AUTHORS.aaron,
-    description: 'Potions rain down in vials of six colors. Line up three or more to make them react and vanish, and set off the arcane reagents for chain reactions.',
-    screenshot: '/images/6502/wizardslab.png',
-    repo: 'https://github.com/acwright/WIZARDSLAB',
-    cart: 'https://raw.githubusercontent.com/acwright/WIZARDSLAB/59ed3d64f4efa5b0977fe264be3cf0b228e6a7dc/AC6502/WizardsLab.crt',
-    controls: [
-      { keys: 'Space or Return', action: 'Start' },
-      { keys: 'Arrow keys or A, D', action: 'Move' },
-      { keys: 'Up arrow or W', action: 'Rotate' },
-      { keys: 'Space or Q', action: 'Rotate back' },
-      { keys: 'Down arrow or S', action: 'Drop faster' },
-      { keys: 'P', action: 'Pause' }
-    ]
   }
 ]
+
+/** The carts on the site, in order: Wizards Lab first (Jay, 2026-10-22) */
+export const CARTRIDGES = ALL_CARTRIDGES.filter((c) => !c.hidden)
 
 /** A.C. Wright's AC6502 emulator, served from his GitHub Pages and built to be framed on other sites */
 export const EMULATOR = {

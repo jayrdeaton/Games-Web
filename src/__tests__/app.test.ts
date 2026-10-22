@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest'
 
 import App from '~/app.vue'
 import TipCard from '~/components/TipCard.vue'
-import { AUTHORS, CARTRIDGES, COMING_SOON, EMULATOR, MORE_TO_PLAY, SITE, TASTIC_GAMES } from '~/constants/site'
+import { AUTHORS, CARTRIDGES, COMING_SOON, EMULATOR, MORE_TO_PLAY, SECTIONS, SITE, TASTIC_GAMES } from '~/constants/site'
 
 describe('home page', () => {
   it('renders the title and every game', async () => {
@@ -92,6 +92,18 @@ describe('home page', () => {
         expect(a.attributes('rel')).toContain('noopener')
       }
     }
+  })
+})
+
+describe('header', () => {
+  it('tabs every section, as an anchor on the home page and a link back to it from the others', async () => {
+    const home = await mountSuspended(App, { route: '/' })
+    for (const s of SECTIONS) {
+      expect(home.find(`section[id="${s.id}"]`).exists()).toBe(true)
+      expect(home.find(`header a[href="#${s.id}"]`).text()).toContain(s.short)
+    }
+    const support = await mountSuspended(App, { route: '/support' })
+    for (const s of SECTIONS) expect(support.find(`header a[href="/#${s.id}"]`).exists()).toBe(true)
   })
 })
 
@@ -183,6 +195,6 @@ describe('site content', () => {
 
   it('pins every cartridge to a commit and ships every image it references', () => {
     for (const cart of CARTRIDGES) expect(cart.cart).toMatch(/^https:\/\/raw\.githubusercontent\.com\/[\w-]+\/[\w-]+\/[0-9a-f]{40}\/[\w/-]+\.crt$/)
-    for (const image of [...TASTIC_GAMES.map((g) => g.icon), ...MORE_TO_PLAY.flatMap((a) => [a.icon, a.iconLight ?? a.icon]), ...COMING_SOON.map((g) => g.icon), ...CARTRIDGES.map((c) => c.screenshot)]) expect(existsSync(`public${image}`)).toBe(true)
+    for (const image of [...TASTIC_GAMES.map((g) => g.icon), ...MORE_TO_PLAY.map((a) => a.icon), ...COMING_SOON.map((g) => g.icon), ...CARTRIDGES.map((c) => c.screenshot)]) expect(existsSync(`public${image}`)).toBe(true)
   })
 })
