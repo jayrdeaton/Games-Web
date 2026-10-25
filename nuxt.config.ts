@@ -36,6 +36,8 @@ export default defineNuxtConfig({
       link: [
         // The .ico (48px, rendered from favicon.svg) is for browsers without SVG favicons
         { rel: 'icon', href: '/favicon.ico', sizes: '48x48' },
+        // The .png (192px, also rendered from favicon.svg) is for crawlers and services that look for a PNG favicon
+        { rel: 'icon', type: 'image/png', sizes: '192x192', href: '/favicon.png' },
         { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
         { rel: 'apple-touch-icon', href: '/images/icon-180.png' }
       ]
