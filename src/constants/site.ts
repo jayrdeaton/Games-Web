@@ -106,15 +106,23 @@ export const TASTIC_GAMES: TasticGame[] = [
     ]
   },
   {
-    slug: 'boxhockey',
-    name: 'BoxHockey',
+    slug: 'pucktastic',
+    name: 'PuckTastic',
     author: AUTHORS.jay,
-    storeName: 'BoxHockeyTastic',
-    description: "Physics-driven tabletop box hockey. Flick the puck through the gaps and into the other player's goal, against the CPU or a friend across the table.",
-    icon: '/images/tastic/boxhockey.png',
-    repo: 'https://github.com/jayrdeaton/BoxHockey',
-    origin: 'https://boxhockey.vercel.app',
-    appStore: 'https://apps.apple.com/app/id6824717751'
+    storeName: 'PuckTastic',
+    description: 'Four tabletop puck games in one: Box Hockey, Air Hockey, Paddles and Breaker. Take on the CPU, or a friend across the table.',
+    icon: '/images/tastic/pucktastic.png',
+    repo: 'https://github.com/jayrdeaton/PuckTastic',
+    origin: 'https://pucktastic.vercel.app',
+    // The BoxHockey app grown into four games (2026-11-11), so it keeps BoxHockey's App Store listing
+    appStore: 'https://apps.apple.com/app/id6824717751',
+    // Box Hockey was an app of its own until 2026-11-11; Air Hockey and Paddles (Pong's successor) were coming soon
+    games: [
+      { name: 'Box Hockey', path: 'loadout/boxhockey', formerSlug: 'boxhockey' },
+      { name: 'Air Hockey', path: 'loadout/airhockey' },
+      { name: 'Paddles', path: 'loadout/paddles' },
+      { name: 'Breaker', path: 'loadout/breaker' }
+    ]
   }
 ]
 
@@ -154,20 +162,7 @@ export type UpcomingGame = {
 
 /** Tastic games on the way: shown with a Coming Soon badge and no Play button, and moved to TASTIC_GAMES when they ship */
 export const COMING_SOON: UpcomingGame[] = [
-  {
-    name: 'AirHockey',
-    author: AUTHORS.jay,
-    description: 'Fast-paced air hockey on one screen: play the CPU, or sit face-to-face with a friend on one device.',
-    icon: '/images/tastic/airhockey.png',
-    repo: 'https://github.com/jayrdeaton/AirHockey'
-  },
-  {
-    name: 'Pong',
-    author: AUTHORS.jay,
-    description: 'Classic two-paddle Pong on one screen: play the CPU, face a friend on one device, or switch the CPU off and break bricks.',
-    icon: '/images/tastic/pong.png',
-    repo: 'https://github.com/jayrdeaton/Pong'
-  }
+  // AirHockey and Pong went into PuckTastic (2026-11-11), Pong as Paddles and Breaker
 ]
 
 export type Cartridge = {

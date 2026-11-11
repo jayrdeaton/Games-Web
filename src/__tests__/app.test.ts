@@ -14,9 +14,11 @@ describe('home page', () => {
     for (const name of [...TASTIC_GAMES, ...MORE_TO_PLAY, ...CARTRIDGES].map((g) => g.name)) expect(wrapper.text()).toContain(name)
   })
 
-  it('lists the coming-soon games with a badge and no Play button', async () => {
+  it('lists the coming-soon games with a badge and no Play button, and drops the section while there are none', async () => {
     const wrapper = await mountSuspended(App, { route: '/' })
     const section = wrapper.find('#coming-soon')
+    expect(section.exists()).toBe(COMING_SOON.length > 0)
+    if (!COMING_SOON.length) return
     for (const game of COMING_SOON) expect(section.text()).toContain(game.name)
     expect(section.findAll('span').filter((s) => s.text() === 'Coming Soon')).toHaveLength(COMING_SOON.length)
     expect(section.findAll('a').filter((a) => a.text() === 'Play')).toHaveLength(0)
@@ -96,14 +98,17 @@ describe('home page', () => {
 })
 
 describe('header', () => {
-  it('tabs every section, as an anchor on the home page and a link back to it from the others', async () => {
+  it('tabs every section that has entries, as an anchor on the home page and a link back to it from the others', async () => {
+    const shown = SECTIONS.filter((s) => (s.id === 'more' ? MORE_TO_PLAY.length : s.id === 'coming-soon' ? COMING_SOON.length : true))
     const home = await mountSuspended(App, { route: '/' })
     for (const s of SECTIONS) {
-      expect(home.find(`section[id="${s.id}"]`).exists()).toBe(true)
-      expect(home.find(`header a[href="#${s.id}"]`).text()).toContain(s.short)
+      const isShown = shown.includes(s)
+      expect(home.find(`section[id="${s.id}"]`).exists()).toBe(isShown)
+      expect(home.find(`header a[href="#${s.id}"]`).exists()).toBe(isShown)
+      if (isShown) expect(home.find(`header a[href="#${s.id}"]`).text()).toContain(s.short)
     }
     const support = await mountSuspended(App, { route: '/support' })
-    for (const s of SECTIONS) expect(support.find(`header a[href="/#${s.id}"]`).exists()).toBe(true)
+    for (const s of shown) expect(support.find(`header a[href="/#${s.id}"]`).exists()).toBe(true)
   })
 })
 
