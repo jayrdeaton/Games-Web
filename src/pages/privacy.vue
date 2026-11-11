@@ -30,7 +30,7 @@
 
       <section :class="section">
         <h2 :class="heading">Game Updates</h2>
-        <p :class="body">When you open one of the mobile apps, it checks for a game update using Expo's update service. That request includes technical details needed to deliver the right update, such as the app version and platform, and a random installation ID that isn't linked to you. Like any internet request, it also includes your IP address. It never includes your profiles, progress, or other game data. See <a href="https://expo.dev/privacy" target="_blank" rel="noopener" :class="link">Expo's Privacy Policy</a>.</p>
+        <p :class="body">When you open one of the mobile apps, it checks for a game update using Expo's update service. That request includes technical details needed to deliver the right update, such as the app version and platform, and a random installation ID that isn't linked to you. If an update fails to start, the next check also reports which update failed and the error it hit, so a broken update can be fixed. Like any internet request, it also includes your IP address. It never includes your profiles, progress, or other game data. See <a href="https://expo.dev/privacy" target="_blank" rel="noopener" :class="link">Expo's Privacy Policy</a>.</p>
       </section>
 
       <section :class="section">
@@ -78,7 +78,7 @@
 import { EMULATOR, SITE, TASTIC_GAMES } from '~/constants/site'
 import { backLink, body, card, link } from '~/constants/styles'
 
-const UPDATED = 'October 22, 2026'
+const UPDATED = 'November 11, 2026'
 const names = TASTIC_GAMES.map((g) => g.storeName)
 const storeNames = `${names.slice(0, -1).join(', ')}, and ${names.at(-1)}`
 

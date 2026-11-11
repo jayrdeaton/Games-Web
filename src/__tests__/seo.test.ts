@@ -10,11 +10,12 @@ const PAGES_DIR = resolve(process.cwd(), 'src/pages')
 const pageFiles = readdirSync(PAGES_DIR, { recursive: true, encoding: 'utf-8' }).filter((file) => file.endsWith('.vue'))
 
 describe('search', () => {
-  it('lists every page, game and cartridge in the sitemap', () => {
+  it('lists every page, game, pack game and cartridge in the sitemap', () => {
     const fixed = pageFiles.filter((file) => !file.includes('[')).map((file) => (file === 'index.vue' ? '/' : `/${file.replace(/\.vue$/, '')}`))
-    const games = TASTIC_GAMES.map((g) => `/${g.slug}/`)
+    const games = TASTIC_GAMES.flatMap((g) => [`/${g.slug}/`, ...(g.games ?? []).map((p) => `/${g.slug}/${p.path}`)])
     const carts = CARTRIDGES.map((c) => `/6502/${c.slug}`)
     expect([...SITEMAP_PATHS].sort()).toEqual([...fixed, ...games, ...carts].sort())
+    expect(SITEMAP_PATHS).toContain('/dueltastic/loadout/trap')
   })
 
   it('has every page set its own title, description and canonical link', () => {
@@ -26,9 +27,9 @@ describe('search', () => {
   })
 
   it('gives each page its full address', () => {
-    const xml = sitemapXml(['/', '/solitaire/'])
+    const xml = sitemapXml(['/', '/cardtastic/'])
     expect(xml).toContain('<loc>https://games.infinitetoken.com/</loc>')
-    expect(xml).toContain('<loc>https://games.infinitetoken.com/solitaire/</loc>')
+    expect(xml).toContain('<loc>https://games.infinitetoken.com/cardtastic/</loc>')
     expect(xml.startsWith('<?xml version="1.0" encoding="UTF-8"?>')).toBe(true)
   })
 })

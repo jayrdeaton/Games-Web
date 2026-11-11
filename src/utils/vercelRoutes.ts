@@ -4,8 +4,13 @@
 // Nitro places ahead of its own routes in .vercel/output/config.json.
 export type VercelRoute = { src: string; dest: string } | { src: string; status: number; headers: Record<string, string> }
 
-export const vercelRoutes = (games: { slug: string; origin: string }[]): VercelRoute[] =>
-  games.flatMap(({ slug, origin }) => [
+export const vercelRoutes = (games: { slug: string; origin: string; formerSlugs?: string[]; games?: { path: string; formerSlug?: string }[] }[]): VercelRoute[] =>
+  games.flatMap(({ slug, origin, formerSlugs = [], games: packGames = [] }) => [
+    // A game's old path after a rename (Solitaire became CardTastic, 2026-11-11) goes to the same page under its new one
+    ...formerSlugs.map((former) => ({ src: `^/${former}(?:/(.*))?$`, status: 308, headers: { Location: `/${slug}/$1` } })),
+    // A game that was an app of its own and is now in a pack (LightCycles and Snake went into DuelTastic, 2026-11-11):
+    // its old path and everything under it go to its page in the pack, since its old pages have no counterpart there
+    ...packGames.flatMap(({ path, formerSlug }) => (formerSlug ? [{ src: `^/${formerSlug}(?:/.*)?$`, status: 308, headers: { Location: `/${slug}/${path}` } }] : [])),
     // Expo Router's home route under a base URL is /<slug>/, and a relative asset URL resolved from /<slug> would
     // miss the game's folder, so the bare path redirects first
     { src: `^/${slug}$`, status: 308, headers: { Location: `/${slug}/` } },

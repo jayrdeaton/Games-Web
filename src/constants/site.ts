@@ -37,14 +37,20 @@ export type StoreLinks = {
   googlePlay?: string
 }
 
+/** One game inside a pack: its name and the page the pack's Home opens for it, relative to the pack's /<slug>/.
+ *  `formerSlug` is the path it had as an app of its own: /<formerSlug> and everything under it 308 to this page
+ *  (src/utils/vercelRoutes.ts), since its old pages have no counterpart in the pack. */
+export type PackGame = { name: string; path: string; formerSlug?: string }
+
 export type TasticGame = StoreLinks & {
   /** The path the game is served at (games.infinitetoken.com/<slug>/) and its Vercel project's name */
   slug: string
   /** The home-screen and web name */
   name: string
   author: Author
-  /** The App Store name, the game's eas.json submit.production.ios.appName: the name plus "Tastic", except
-   *  LightCycleTastic (Jay, 2026-10-19) */
+  /** The App Store name, the game's eas.json submit.production.ios.appName: the name plus "Tastic", or the name itself
+   *  for a pack, whose name already ends in Tastic, except CardTastic's "CardTastic: Solitaire & More" ("CardTastic"
+   *  alone was taken) */
   storeName: string
   description: string
   /** The game's splash art (assets/images/splash-dark.png at 192px), transparent, drawn bare on the dark card */
@@ -53,18 +59,24 @@ export type TasticGame = StoreLinks & {
   /** The game's own production deployment, which /<slug>/ is proxied to (see src/utils/vercelRoutes.ts). The
    *  <project>-infinite-token.vercel.app aliases sit behind Vercel's login, so these are the public production aliases. */
   origin: string
+  /** Paths the game was served at before a rename, each redirected to /<slug>/ with the rest of the path kept */
+  formerSlugs?: string[]
+  /** A pack's games, in its Home's order: the card links each one, and the sitemap lists them */
+  games?: PackGame[]
 }
 
 export const TASTIC_GAMES: TasticGame[] = [
   {
-    slug: 'solitaire',
-    name: 'Solitaire',
+    slug: 'cardtastic',
+    name: 'CardTastic',
     author: AUTHORS.jay,
-    storeName: 'SolitaireTastic',
-    description: 'Eleven classic solitaire games in one, from Klondike and FreeCell to Pyramid and Aces Up.',
-    icon: '/images/tastic/solitaire.png',
-    repo: 'https://github.com/jayrdeaton/Solitaire',
-    origin: 'https://solitaire-bay.vercel.app'
+    storeName: 'CardTastic: Solitaire & More',
+    description: 'Twenty card games in one: eleven solitaire games and nine to play together, from Klondike and FreeCell to Gin Rummy and Crazy Eights.',
+    icon: '/images/tastic/cardtastic.png',
+    repo: 'https://github.com/jayrdeaton/CardTastic',
+    origin: 'https://cardtastic-web.vercel.app',
+    // Solitaire until 2026-11-11
+    formerSlugs: ['solitaire']
   },
   {
     slug: 'hangman',
@@ -77,24 +89,21 @@ export const TASTIC_GAMES: TasticGame[] = [
     origin: 'https://hangman-teal-psi.vercel.app'
   },
   {
-    slug: 'lightcycles',
-    name: 'LightCycles',
+    slug: 'dueltastic',
+    name: 'DuelTastic',
     author: AUTHORS.jay,
-    storeName: 'LightCycleTastic',
-    description: 'A light-cycle duel for two players on one screen, or one player against the CPU. Last rider still riding wins the round.',
-    icon: '/images/tastic/lightcycles.png',
-    repo: 'https://github.com/jayrdeaton/LightCycles',
-    origin: 'https://lightcycles-three.vercel.app'
-  },
-  {
-    slug: 'snake',
-    name: 'Snake',
-    author: AUTHORS.jay,
-    storeName: 'SnakeTastic',
-    description: 'Classic Snake, rebuilt for one shared screen: solo, against a CPU, or head-to-head with a friend.',
-    icon: '/images/tastic/snake.png',
-    repo: 'https://github.com/jayrdeaton/Snake',
-    origin: 'https://snake-drab-kappa.vercel.app'
+    storeName: 'DuelTastic',
+    description: 'Four duel games in one: Trap, Turf, Tag and Snake. Take on the CPU, or face a friend on one shared screen.',
+    icon: '/images/tastic/dueltastic.png',
+    repo: 'https://github.com/jayrdeaton/DuelTastic',
+    origin: 'https://dueltastic.vercel.app',
+    // LightCycles (as Trap) and Snake were apps of their own until 2026-11-11
+    games: [
+      { name: 'Trap', path: 'loadout/trap', formerSlug: 'lightcycles' },
+      { name: 'Turf', path: 'loadout/turf' },
+      { name: 'Tag', path: 'loadout/tag' },
+      { name: 'Snake', path: 'loadout/snake', formerSlug: 'snake' }
+    ]
   },
   {
     slug: 'boxhockey',

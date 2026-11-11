@@ -39,6 +39,12 @@
               </div>
             </div>
             <p :class="body" class="mb-5">{{ game.description }}</p>
+            <!-- A pack's games, each straight to its page in the pack -->
+            <ul v-if="game.games?.length" :aria-label="`${game.name} games`" class="-mt-2 mb-5 flex flex-wrap gap-x-4 gap-y-1 text-sm">
+              <li v-for="g in game.games" :key="g.path">
+                <a :href="`/${game.slug}/${g.path}`" :class="link">{{ g.name }}</a>
+              </li>
+            </ul>
             <div class="mt-auto flex flex-wrap gap-3">
               <a :href="`/${game.slug}/`" :class="primaryButton">Play</a>
               <StoreButtons :links="game" />

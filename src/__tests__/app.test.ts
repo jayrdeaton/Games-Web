@@ -180,10 +180,15 @@ describe('site content', () => {
     for (const u of all.match(/"(https?:[^"]+)"/g) ?? []) expect(u).toMatch(/^"https:\/\//)
   })
 
-  it('names each store listing after its game, plus "Tastic"', () => {
-    // Jay named LightCycles' listing LightCycleTastic (2026-10-19)
-    const exceptions: Record<string, string> = { LightCycles: 'LightCycleTastic' }
-    for (const game of TASTIC_GAMES) expect(game.storeName).toBe(exceptions[game.name] ?? `${game.name}Tastic`)
+  it('names each store listing after its game, plus "Tastic" unless it already ends in it', () => {
+    // "CardTastic" alone was taken on the App Store (2026-11-08)
+    const exceptions: Record<string, string> = { CardTastic: 'CardTastic: Solitaire & More' }
+    for (const game of TASTIC_GAMES) expect(game.storeName).toBe(exceptions[game.name] ?? (game.name.endsWith('Tastic') ? game.name : `${game.name}Tastic`))
+  })
+
+  it("links a pack's games from its card", async () => {
+    const wrapper = await mountSuspended(App, { route: '/' })
+    for (const { slug, games = [] } of TASTIC_GAMES) for (const { name, path } of games) expect(wrapper.find(`a[href="/${slug}/${path}"]`).text()).toBe(name)
   })
 
   it('links store listings in their short, region-free form', () => {
