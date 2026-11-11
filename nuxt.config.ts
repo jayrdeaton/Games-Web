@@ -4,9 +4,9 @@ import tailwindcss from '@tailwindcss/vite'
 
 import type {} from './.nuxt/nuxt.node.d.ts'
 import { CARTRIDGES, SITE, TASTIC_GAMES } from './src/constants/site'
+import { HOME_DESCRIPTION, HOME_TITLE, OG_IMAGE } from './src/utils/seo'
 import { vercelRoutes } from './src/utils/vercelRoutes'
 const pkg: { displayName: string; description: string } = JSON.parse(readFileSync('./package.json', 'utf-8'))
-const title = `${SITE.company.name} | Games`
 export default defineNuxtConfig({
   compatibilityDate: '2025-11-01',
   srcDir: 'src',
@@ -19,19 +19,26 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      // "Infinite Token | Games", like www.infinitetoken.com's "Infinite Token | Software Development"
-      title,
+      htmlAttrs: { lang: 'en' },
+      // "Infinite Token | Games", like www.infinitetoken.com's "Infinite Token | Software Development". The home page's
+      // title and description, as defaults: each page sets its own through usePageSeo
+      title: HOME_TITLE,
       meta: [
-        { name: 'description', content: pkg.description },
+        { name: 'description', content: HOME_DESCRIPTION },
         { name: 'theme-color', content: '#09090b' },
         { property: 'og:type', content: 'website' },
         { property: 'og:site_name', content: pkg.displayName },
-        { property: 'og:title', content: title },
-        { property: 'og:description', content: pkg.description },
-        { property: 'og:url', content: SITE.url },
-        { name: 'twitter:card', content: 'summary' },
-        { name: 'twitter:title', content: title },
-        { name: 'twitter:description', content: pkg.description }
+        { property: 'og:title', content: HOME_TITLE },
+        { property: 'og:description', content: HOME_DESCRIPTION },
+        { property: 'og:url', content: `${SITE.url}/` },
+        // The link preview every page shares: scripts/og-image.html, rendered to public/images/og.png
+        { property: 'og:image', content: OG_IMAGE },
+        { property: 'og:image:width', content: '1200' },
+        { property: 'og:image:height', content: '630' },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:title', content: HOME_TITLE },
+        { name: 'twitter:description', content: HOME_DESCRIPTION },
+        { name: 'twitter:image', content: OG_IMAGE }
       ],
       link: [
         // The .ico (48px, rendered from favicon.svg) is for browsers without SVG favicons
@@ -50,7 +57,7 @@ export default defineNuxtConfig({
   },
   nitro: {
     prerender: {
-      routes: ['/', '/privacy', '/support', ...CARTRIDGES.map((c) => `/6502/${c.slug}`)],
+      routes: ['/', '/privacy', '/support', '/sitemap.xml', ...CARTRIDGES.map((c) => `/6502/${c.slug}`)],
       crawlLinks: true,
       // The Tastic games are other deployments behind the proxy routes below, not pages of this site
       ignore: TASTIC_GAMES.map((g) => `/${g.slug}`)

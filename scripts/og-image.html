@@ -1,0 +1,59 @@
+<!doctype html>
+<!-- The link preview card (public/images/og.png, 1200x630) that social sites, chat apps and search results show for every
+     page, laid out like www.infinitetoken.com's. Rerender after changing it (or a Tastic icon), from the repo root:
+     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless --hide-scrollbars --window-size=1200,630 \
+       --screenshot="$PWD/public/images/og.png" "file://$PWD/scripts/og-image.html" -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      * { margin: 0; box-sizing: border-box; }
+      html, body { width: 1200px; height: 630px; overflow: hidden; }
+      body {
+        background: #09090b;
+        color: #fafafa;
+        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 72px;
+        padding: 0 96px;
+      }
+      .dots {
+        position: absolute; inset: 0;
+        background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+        background-size: 24px 24px;
+      }
+      .glow { position: absolute; border-radius: 50%; filter: blur(110px); }
+      .glow.indigo { left: -200px; top: -260px; width: 760px; height: 560px; background: rgba(99, 102, 241, 0.22); }
+      .glow.violet { right: -160px; bottom: -280px; width: 720px; height: 520px; background: rgba(139, 92, 246, 0.16); }
+      .rings { position: relative; width: 300px; flex: none; }
+      .text { position: relative; }
+      h1 { font-size: 92px; font-weight: 800; letter-spacing: -2.5px; line-height: 1.02; }
+      .games {
+        background: linear-gradient(90deg, #818cf8, #a78bfa, #c084fc);
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+      }
+      p { margin-top: 22px; font-size: 30px; line-height: 1.35; color: #a1a1aa; max-width: 640px; }
+      .icons { display: flex; gap: 18px; margin-top: 34px; }
+      .icons img { width: 72px; height: 72px; }
+    </style>
+  </head>
+  <body>
+    <div class="dots"></div>
+    <div class="glow indigo"></div>
+    <div class="glow violet"></div>
+    <img class="rings" src="../public/images/logo.svg" alt="" />
+    <div class="text">
+      <h1>Infinite Token<br /><span class="games">Games</span></h1>
+      <p>Free games with no ads, no accounts, and no tracking. Play them in your browser.</p>
+      <div class="icons">
+        <img src="../public/images/tastic/solitaire.png" alt="" />
+        <img src="../public/images/tastic/hangman.png" alt="" />
+        <img src="../public/images/tastic/lightcycles.png" alt="" />
+        <img src="../public/images/tastic/snake.png" alt="" />
+        <img src="../public/images/tastic/boxhockey.png" alt="" />
+      </div>
+    </div>
+  </body>
+</html>

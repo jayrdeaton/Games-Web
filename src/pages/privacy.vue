@@ -86,5 +86,9 @@ const section = 'mb-8'
 const heading = 'text-lg font-semibold text-white mb-3'
 const list = 'list-disc list-outside ml-5 mt-3 space-y-1.5 text-sm text-zinc-400 leading-relaxed'
 
-useHead({ title: `${SITE.name} | Privacy Policy` })
+usePageSeo({
+  path: '/privacy',
+  title: `${SITE.name} | Privacy Policy`,
+  description: `The privacy policy for ${SITE.company.name}'s games and this site. The games collect no personal information: no accounts, no ads, no analytics and no tracking.`
+})
 </script>

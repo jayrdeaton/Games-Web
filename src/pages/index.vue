@@ -135,6 +135,9 @@
 <script setup lang="ts">
 import { CARTRIDGES, COMING_SOON, EMULATOR, MORE_TO_PLAY, type SectionId, SECTIONS, SITE, TASTIC_GAMES } from '~/constants/site'
 import { badge, body, card, gameCard, link, primaryButton, secondaryButton, sectionIntro, sectionTitle } from '~/constants/styles'
+import { HOME_DESCRIPTION, HOME_TITLE } from '~/utils/seo'
+
+usePageSeo({ path: '/', title: HOME_TITLE, description: HOME_DESCRIPTION })
 
 // Each card links its App Store listing once it's live; the intro says they're coming until every one is there
 const storeNote = TASTIC_GAMES.every((g) => g.appStore) ? 'Get them for iPhone and iPad on the App Store, too.' : 'iPhone and iPad versions are coming to the App Store.'

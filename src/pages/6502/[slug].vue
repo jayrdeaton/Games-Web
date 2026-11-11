@@ -51,5 +51,9 @@ if (!found) throw createError({ statusCode: 404, statusMessage: 'Page not found'
 const cart = found
 const src = embedUrl(EMULATOR.embed, cart.cart)
 
-useHead({ title: `${SITE.name} | ${cart.name} (6502)` })
+usePageSeo({
+  path: `/6502/${cart.slug}`,
+  title: `${SITE.name} | ${cart.name} (6502)`,
+  description: `Play ${cart.name} by ${cart.author.name} in your browser, on the AC6502 emulator. ${cart.description}`
+})
 </script>

@@ -42,5 +42,9 @@
 import { CARTRIDGES, SITE, TASTIC_GAMES } from '~/constants/site'
 import { backLink, body, card, link, primaryButton } from '~/constants/styles'
 
-useHead({ title: `${SITE.name} | Support` })
+usePageSeo({
+  path: '/support',
+  title: `${SITE.name} | Support`,
+  description: `Get help with ${SITE.company.name}'s games: email ${SITE.email} to report a bug, share an idea, or ask a question.`
+})
 </script>
