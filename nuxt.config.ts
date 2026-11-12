@@ -57,7 +57,7 @@ export default defineNuxtConfig({
   },
   nitro: {
     prerender: {
-      routes: ['/', '/privacy', '/support', '/sitemap.xml', ...CARTRIDGES.map((c) => `/6502/${c.slug}`)],
+      routes: ['/', '/privacy', '/terms', '/support', '/sitemap.xml', ...CARTRIDGES.map((c) => `/6502/${c.slug}`)],
       crawlLinks: true,
       // The Tastic games are other deployments behind the proxy routes below, not pages of this site
       ignore: TASTIC_GAMES.map((g) => `/${g.slug}`)

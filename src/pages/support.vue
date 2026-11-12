@@ -31,8 +31,8 @@
       </div>
 
       <div :class="card">
-        <h2 class="font-semibold mb-1">Privacy</h2>
-        <p :class="body">The games don't collect personal information. <NuxtLink to="/privacy" :class="link">Read the privacy policy</NuxtLink>.</p>
+        <h2 class="font-semibold mb-1">Privacy and Terms</h2>
+        <p :class="body">The games don't collect personal information. Read the <NuxtLink to="/privacy" :class="link">privacy policy</NuxtLink> and the <NuxtLink to="/terms" :class="link">terms of use</NuxtLink>.</p>
       </div>
     </div>
   </main>

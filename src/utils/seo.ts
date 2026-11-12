@@ -15,7 +15,7 @@ export const HOME_DESCRIPTION = `Free games with no ads, no accounts and no trac
 
 /** Every page search engines should index: this site's pages and the Tastic games proxied under /<slug>/ (a pack's
  *  games' own pages too), which are what people come for. Served as /sitemap.xml by server/routes/sitemap.xml.ts, prerendered (nuxt.config.ts) */
-export const SITEMAP_PATHS = ['/', ...TASTIC_GAMES.flatMap((g) => [`/${g.slug}/`, ...(g.games ?? []).map((p) => `/${g.slug}/${p.path}`)]), ...CARTRIDGES.map((c) => `/6502/${c.slug}`), '/support', '/privacy']
+export const SITEMAP_PATHS = ['/', ...TASTIC_GAMES.flatMap((g) => [`/${g.slug}/`, ...(g.games ?? []).map((p) => `/${g.slug}/${p.path}`)]), ...CARTRIDGES.map((c) => `/6502/${c.slug}`), '/support', '/privacy', '/terms']
 
 export const sitemapXml = (paths: string[]) => {
   const urls = paths.map((path) => `  <url><loc>${pageUrl(path)}</loc></url>`).join('\n')

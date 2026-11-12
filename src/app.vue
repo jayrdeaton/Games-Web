@@ -46,6 +46,7 @@
         <nav aria-label="Footer" class="flex flex-wrap gap-6 justify-center text-sm">
           <a :href="SITE.company.url" target="_blank" rel="noopener" :class="mutedLink">{{ SITE.company.name }}</a>
           <NuxtLink to="/privacy" :class="mutedLink">Privacy</NuxtLink>
+          <NuxtLink to="/terms" :class="mutedLink">Terms</NuxtLink>
           <NuxtLink to="/support" :class="mutedLink">Support</NuxtLink>
           <a v-if="SITE.tipUrl" :href="SITE.tipUrl" target="_blank" rel="noopener" :class="mutedLink">Tip</a>
         </nav>

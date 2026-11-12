@@ -1,11 +1,12 @@
 import { existsSync } from 'node:fs'
 
 import { mountSuspended } from '@nuxt/test-utils/runtime'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import App from '~/app.vue'
 import TipCard from '~/components/TipCard.vue'
 import { AUTHORS, CARTRIDGES, COMING_SOON, EMULATOR, MORE_TO_PLAY, SECTIONS, SITE, TASTIC_GAMES } from '~/constants/site'
+import { HOME_DESCRIPTION } from '~/utils/seo'
 
 describe('home page', () => {
   it('renders the title and every game', async () => {
@@ -87,7 +88,7 @@ describe('home page', () => {
   })
 
   it('opens every external link in a new tab safely', async () => {
-    for (const route of ['/', '/privacy', '/support', `/6502/${CARTRIDGES[0]!.slug}`]) {
+    for (const route of ['/', '/privacy', '/terms', '/support', `/6502/${CARTRIDGES[0]!.slug}`]) {
       const wrapper = await mountSuspended(App, { route })
       for (const a of wrapper.findAll('a[href^="http"]')) {
         expect(a.attributes('target')).toBe('_blank')
@@ -160,7 +161,7 @@ describe('credits', () => {
   })
 })
 
-describe('privacy and support', () => {
+describe('privacy, terms and support', () => {
   it('names every Tastic game by its store name and gives the contact email', async () => {
     const wrapper = await mountSuspended(App, { route: '/privacy' })
     for (const game of TASTIC_GAMES) expect(wrapper.text()).toContain(game.storeName)
@@ -170,6 +171,63 @@ describe('privacy and support', () => {
   it("links to every game's issue tracker", async () => {
     const wrapper = await mountSuspended(App, { route: '/support' })
     for (const repo of [...TASTIC_GAMES, ...CARTRIDGES].map((g) => g.repo)) expect(wrapper.find(`a[href="${repo}/issues"]`).exists()).toBe(true)
+  })
+
+  it.each(['/', '/privacy', '/terms', '/support', `/6502/${CARTRIDGES[0]!.slug}`])('links Terms right after Privacy in the footer on %s', async (route) => {
+    const footer = (await mountSuspended(App, { route })).findAll('footer a').map((a) => a.text())
+    expect(footer.indexOf('Privacy')).toBeGreaterThan(-1)
+    expect(footer.indexOf('Terms')).toBe(footer.indexOf('Privacy') + 1)
+  })
+
+  it('links the privacy policy and the terms from the support page', async () => {
+    const support = await mountSuspended(App, { route: '/support' })
+    expect(support.find('main a[href="/privacy"]').exists()).toBe(true)
+    expect(support.find('main a[href="/terms"]').exists()).toBe(true)
+  })
+
+  it('says the code is MIT licensed and the names and art are reserved, never that the code is proprietary', async () => {
+    const wrapper = await mountSuspended(App, { route: '/terms' })
+    const text = wrapper.find('main').text()
+    expect(text).toContain('MIT License')
+    expect(text).toContain('all rights reserved')
+    expect(text).not.toMatch(/proprietary/i)
+  })
+
+  it('names Nebraska law as governing the terms', async () => {
+    expect((await mountSuspended(App, { route: '/terms' })).find('main').text()).toContain('governed by the laws of the State of Nebraska')
+  })
+
+  it('links the privacy policy, the support page and the contact email from the terms, and sets the apps with their own sites aside', async () => {
+    const wrapper = await mountSuspended(App, { route: '/terms' })
+    expect(wrapper.find('main a[href="/privacy"]').exists()).toBe(true)
+    expect(wrapper.find('main a[href="/support"]').exists()).toBe(true)
+    expect(wrapper.find('main a[href="/"]').exists()).toBe(true)
+    expect(wrapper.html()).toContain(`mailto:${SITE.email}`)
+    expect(wrapper.find('main a[href="/#more"]').exists()).toBe(MORE_TO_PLAY.length > 0)
+  })
+
+  it.each(['/privacy', '/terms', '/support'])('writes %s without em or en dashes, or a spaced hyphen used as one', async (route) => {
+    const text = (await mountSuspended(App, { route })).find('main').text()
+    // Built from char codes so formatters can't turn the escapes back into literal dashes
+    expect(text).not.toMatch(new RegExp(`[${String.fromCharCode(0x2013, 0x2014)}]`))
+    expect(text).not.toMatch(/\s-\s/)
+  })
+})
+
+describe('page tags', () => {
+  it.each([
+    ['/privacy', 'Privacy Policy'],
+    ['/terms', 'Terms of Use'],
+    ['/support', 'Support']
+  ])('gives %s its own title, description and canonical link', async (route, name) => {
+    await mountSuspended(App, { route })
+    const canonical = () => document.querySelector('link[rel="canonical"]')?.getAttribute('href')
+    await vi.waitFor(() => expect(canonical()).toBe(`${SITE.url}${route}`))
+    expect(document.title).toBe(`${SITE.name} | ${name}`)
+    const description = document.querySelector('meta[name="description"]')?.getAttribute('content')
+    expect(description).toBeTruthy()
+    expect(description).not.toBe(HOME_DESCRIPTION)
+    expect(document.querySelector('meta[property="og:url"]')?.getAttribute('content')).toBe(`${SITE.url}${route}`)
   })
 })
 
