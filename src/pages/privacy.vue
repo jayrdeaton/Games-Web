@@ -66,8 +66,7 @@
       <section>
         <h2 :class="heading">Contact</h2>
         <p :class="body">
-          Questions about this policy? Email <a :href="`mailto:${SITE.email}`" :class="link">{{ SITE.email }}</a
-          >.
+          Questions about this policy? Email <a :href="`mailto:${SITE.email}`" :class="link">{{ SITE.email }}</a>.
         </p>
       </section>
     </article>

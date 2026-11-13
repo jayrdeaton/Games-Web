@@ -15,8 +15,7 @@
       <div class="relative z-10 text-center max-w-4xl mx-auto">
         <LogoStack :width="120" class="mx-auto mb-2" />
         <h1 class="text-4xl md:text-5xl font-bold tracking-tight leading-tight mb-4">
-          <span class="text-white">{{ SITE.company.name }}</span
-          >{{ ' ' }}<span class="bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">Games</span>
+          <span class="text-white">{{ SITE.company.name }}</span>{{ ' ' }}<span class="bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">Games</span>
         </h1>
         <p class="text-zinc-400 text-lg md:text-xl leading-relaxed">{{ SITE.tagline }}</p>
       </div>
@@ -45,10 +44,12 @@
                 <a :href="`/${game.slug}/${g.path}`" :class="link">{{ g.name }}</a>
               </li>
             </ul>
-            <div class="mt-auto flex flex-wrap gap-3">
-              <a :href="`/${game.slug}/`" :class="primaryButton">Play</a>
-              <StoreButtons :links="game" />
-              <a :href="game.repo" target="_blank" rel="noopener" :class="secondaryButton">Source</a>
+            <div class="mt-auto flex flex-col gap-5">
+              <div class="flex flex-wrap gap-3">
+                <a :href="`/${game.slug}/`" :class="primaryButton">Play</a>
+                <a :href="game.repo" target="_blank" rel="noopener" :class="secondaryButton">Source</a>
+              </div>
+              <PlatformChips :platforms="{ web: `/${game.slug}/`, ...game.platforms }" :name="game.name" class="text-zinc-400" />
             </div>
           </div>
         </div>
@@ -122,10 +123,12 @@
               </div>
             </div>
             <p :class="body" class="mb-5">{{ app.description }}</p>
-            <div class="mt-auto flex flex-wrap gap-3">
-              <a :href="app.url" target="_blank" rel="noopener" :class="primaryButton">Play</a>
-              <StoreButtons :links="app" />
-              <a :href="app.repo" target="_blank" rel="noopener" :class="secondaryButton">Source</a>
+            <div class="mt-auto flex flex-col gap-5">
+              <div class="flex flex-wrap gap-3">
+                <a :href="app.url" target="_blank" rel="noopener" :class="primaryButton">Play</a>
+                <a :href="app.repo" target="_blank" rel="noopener" :class="secondaryButton">Source</a>
+              </div>
+              <PlatformChips :platforms="{ web: app.url, ...app.platforms }" :name="app.name" class="text-zinc-400" />
             </div>
           </div>
         </div>
@@ -145,8 +148,10 @@ import { HOME_DESCRIPTION, HOME_TITLE } from '~/utils/seo'
 
 usePageSeo({ path: '/', title: HOME_TITLE, description: HOME_DESCRIPTION })
 
-// Each card links its App Store listing once it's live; the intro says they're coming until every one is there
-const storeNote = TASTIC_GAMES.every((g) => g.appStore) ? 'Get them for iPhone and iPad on the App Store, too.' : 'iPhone and iPad versions are coming to the App Store.'
+// Each card's chips link its store listings once they're live; the intro says the apps are rolling out until every
+// Tastic game is in both stores
+const inStore = (store: 'ios' | 'android') => TASTIC_GAMES.every((g) => g.platforms[store]?.startsWith('https://'))
+const storeNote = inStore('ios') && inStore('android') ? 'Get them for iPhone, iPad and Android, too.' : inStore('ios') ? 'Get them for iPhone and iPad, too, with Android on the way.' : 'iPhone, iPad and Android versions are rolling out.'
 
 const title = (id: SectionId) => SECTIONS.find((s) => s.id === id)!.label
 

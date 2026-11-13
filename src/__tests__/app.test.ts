@@ -46,39 +46,38 @@ describe('home page', () => {
     for (const app of MORE_TO_PLAY) expect(wrapper.find(`#more a[href="${app.url}"]`).text()).toBe('Play')
   })
 
-  it('shows a store button only for a listing that is set', async () => {
-    const isStoreButton = (link: { text: () => string }) => ['App Store', 'Google Play'].includes(link.text())
-    const listed = [...TASTIC_GAMES, ...MORE_TO_PLAY].flatMap((entry) => [entry.appStore, entry.googlePlay]).filter(Boolean)
+  it('links a store chip only once its listing is live, and shows the rest as coming soon', async () => {
+    const entries = [...TASTIC_GAMES, ...MORE_TO_PLAY]
+    const listed = entries.flatMap((entry) => Object.values(entry.platforms)).filter((link) => link !== 'soon')
+    const soon = entries.flatMap((entry) => Object.values(entry.platforms)).filter((link) => link === 'soon')
     const before = await mountSuspended(App, { route: '/' })
-    expect(before.findAll('a').filter(isStoreButton)).toHaveLength(listed.length)
-    for (const href of listed) expect(before.find(`a[href="${href}"]`).exists()).toBe(true)
-    const game = TASTIC_GAMES.find((entry) => !entry.appStore)
-    const app = MORE_TO_PLAY.find((entry) => !entry.googlePlay)
-    game!.appStore = 'https://apps.apple.com/app/id1'
-    app!.googlePlay = 'https://play.google.com/store/apps/details?id=com.example'
+    for (const href of listed) expect(before.find(`a.platform-chip[href="${href}"]`).exists()).toBe(true)
+    expect(before.findAll('.platform-chip--soon')).toHaveLength(soon.length)
+    // Every card's first chip is its web version, the same page as its Play button
+    for (const game of TASTIC_GAMES) expect(before.find(`a.platform-chip[href="/${game.slug}/"]`).text()).toBe('Web')
+    for (const app of MORE_TO_PLAY) expect(before.find(`a.platform-chip[href="${app.url}"]`).text()).toBe('Web')
+    const game = TASTIC_GAMES.find((entry) => entry.platforms.ios === 'soon')!
+    game.platforms.ios = 'https://apps.apple.com/app/id1'
     try {
       const after = await mountSuspended(App, { route: '/' })
-      expect(after.find(`a[href="${game!.appStore}"]`).text()).toBe('App Store')
-      expect(after.find(`a[href="${app!.googlePlay}"]`).text()).toBe('Google Play')
-      expect(after.findAll('a').filter(isStoreButton)).toHaveLength(listed.length + 2)
+      expect(after.find(`a.platform-chip[href="${game.platforms.ios}"]`).text()).toBe('iPhone and iPad')
+      expect(after.findAll('.platform-chip--soon')).toHaveLength(soon.length - 1)
     } finally {
-      delete game!.appStore
-      delete app!.googlePlay
+      game.platforms.ios = 'soon'
     }
   })
 
-  it('says the Tastic games are coming to the App Store until every one is there', async () => {
+  it('says the Tastic games are rolling out to the stores until every one is in both', async () => {
     const intro = async () => (await mountSuspended(App, { route: '/' })).find('#tastic p').text()
-    expect(await intro()).toContain('coming to the App Store')
-    const listings = TASTIC_GAMES.map((game) => game.appStore)
-    for (const game of TASTIC_GAMES) game.appStore ??= 'https://apps.apple.com/app/id1'
+    const saved = TASTIC_GAMES.map((game) => ({ ...game.platforms }))
     try {
-      expect(await intro()).not.toContain('coming')
+      expect(await intro()).toContain('iPhone, iPad and Android versions are rolling out.')
+      for (const game of TASTIC_GAMES) game.platforms.ios = 'https://apps.apple.com/app/id1'
+      expect(await intro()).toContain('Get them for iPhone and iPad, too, with Android on the way.')
+      for (const game of TASTIC_GAMES) game.platforms.android = 'https://play.google.com/store/apps/details?id=com.example'
+      expect(await intro()).toContain('Get them for iPhone, iPad and Android, too.')
     } finally {
-      TASTIC_GAMES.forEach((game, index) => {
-        if (listings[index]) game.appStore = listings[index]
-        else delete game.appStore
-      })
+      TASTIC_GAMES.forEach((game, index) => (game.platforms = saved[index]!))
     }
   })
 
@@ -255,9 +254,9 @@ describe('site content', () => {
   })
 
   it('links store listings in their short, region-free form', () => {
-    for (const game of [...TASTIC_GAMES, ...MORE_TO_PLAY]) {
-      if (game.appStore) expect(game.appStore).toMatch(/^https:\/\/apps\.apple\.com\/app\/id\d+$/)
-      if (game.googlePlay) expect(game.googlePlay).toMatch(/^https:\/\/play\.google\.com\/store\/apps\/details\?id=[\w.]+$/)
+    for (const { platforms } of [...TASTIC_GAMES, ...MORE_TO_PLAY]) {
+      if (platforms.ios !== 'soon') expect(platforms.ios).toMatch(/^https:\/\/apps\.apple\.com\/app\/id\d+$/)
+      if (platforms.android !== 'soon') expect(platforms.android).toMatch(/^https:\/\/play\.google\.com\/store\/apps\/details\?id=[\w.]+$/)
     }
   })
 

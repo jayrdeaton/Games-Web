@@ -29,22 +29,23 @@
     "esbuild": "^0.28.1"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.3.0",
-    "nuxt": "^4.4.6",
-    "tailwindcss": "^4.3.0",
-    "vue": "^3.5.13",
-    "vue-router": "^5.1.0"
+    "@infinitetoken/site-kit": "^0.1.1",
+    "@tailwindcss/vite": "^4.3.5",
+    "nuxt": "^4.6.4",
+    "tailwindcss": "^4.3.5",
+    "vue": "^3.5.45",
+    "vue-router": "^5.5.0"
   },
   "devDependencies": {
-    "@infinitetoken/eslint-config": "^0.1.4",
-    "@nuxt/test-utils": "^4.0.3",
-    "@types/node": "^25.0.0",
-    "@vue/test-utils": "^2.4.10",
-    "eslint": "^10.4.1",
-    "happy-dom": "^20.9.0",
-    "prettier": "^3.8.3",
+    "@infinitetoken/eslint-config": "^0.2.1",
+    "@nuxt/test-utils": "^4.4.0",
+    "@types/node": "^26.6.6",
+    "@vue/test-utils": "^2.5.1",
+    "eslint": "^10.14.0",
+    "happy-dom": "^21.0.4",
+    "prettier": "^3.10.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.7",
-    "vue-tsc": "^3.3.3"
+    "vitest": "^5.1.0",
+    "vue-tsc": "^3.3.14"
   }
 }

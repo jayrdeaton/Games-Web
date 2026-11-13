@@ -1,3 +1,5 @@
+import type { Platforms } from '@infinitetoken/site-kit/platforms'
+
 export const SITE = {
   name: 'Infinite Token Games',
   url: 'https://games.infinitetoken.com',
@@ -29,12 +31,12 @@ export const AUTHORS = {
   aaron: { name: 'A.C. Wright', url: 'https://acwrightdesign.com' }
 } satisfies Record<string, Author>
 
-/** A game's store listings, each set only once it's live, so its card shows a button for it. The App Store link is
- *  https://apps.apple.com/app/id<the app's Apple ID>, the Google Play one https://play.google.com/store/apps/details?id=<its
+/** A game's app stores, shown as platform chips under its buttons (PlatformChips from @infinitetoken/site-kit) after the
+ *  Web chip the card adds itself. Each is 'soon' until the listing is live, then the listing, short and region-free: ios
+ *  https://apps.apple.com/app/id<the app's Apple ID>, android https://play.google.com/store/apps/details?id=<its
  *  android.package>. The site-alignment check looks each game up by bundle ID and flags one that's live but not linked. */
 export type StoreLinks = {
-  appStore?: string
-  googlePlay?: string
+  platforms: Pick<Platforms, 'ios' | 'android'>
 }
 
 /** One game inside a pack: its name and the page the pack's Home opens for it, relative to the pack's /<slug>/.
@@ -75,18 +77,9 @@ export const TASTIC_GAMES: TasticGame[] = [
     icon: '/images/tastic/cardtastic.png',
     repo: 'https://github.com/jayrdeaton/CardTastic',
     origin: 'https://cardtastic-web.vercel.app',
+    platforms: { ios: 'soon', android: 'soon' },
     // Solitaire until 2026-11-11
     formerSlugs: ['solitaire']
-  },
-  {
-    slug: 'hangman',
-    name: 'Hangman',
-    author: AUTHORS.jay,
-    storeName: 'HangmanTastic',
-    description: 'The classic word-guessing game. 19k+ puzzles across 50+ packs, hand-drawn art, and Pass & Play with friends.',
-    icon: '/images/tastic/hangman.png',
-    repo: 'https://github.com/jayrdeaton/Hangman',
-    origin: 'https://hangman-teal-psi.vercel.app'
   },
   {
     slug: 'dueltastic',
@@ -97,6 +90,7 @@ export const TASTIC_GAMES: TasticGame[] = [
     icon: '/images/tastic/dueltastic.png',
     repo: 'https://github.com/jayrdeaton/DuelTastic',
     origin: 'https://dueltastic.vercel.app',
+    platforms: { ios: 'soon', android: 'soon' },
     // LightCycles (as Trap) and Snake were apps of their own until 2026-11-11
     games: [
       { name: 'Trap', path: 'loadout/trap', formerSlug: 'lightcycles' },
@@ -104,6 +98,17 @@ export const TASTIC_GAMES: TasticGame[] = [
       { name: 'Tag', path: 'loadout/tag' },
       { name: 'Snake', path: 'loadout/snake', formerSlug: 'snake' }
     ]
+  },
+  {
+    slug: 'hangman',
+    name: 'Hangman',
+    author: AUTHORS.jay,
+    storeName: 'HangmanTastic',
+    description: 'The classic word-guessing game. 19k+ puzzles across 50+ packs, hand-drawn art, and Pass & Play with friends.',
+    icon: '/images/tastic/hangman.png',
+    repo: 'https://github.com/jayrdeaton/Hangman',
+    origin: 'https://hangman-teal-psi.vercel.app',
+    platforms: { ios: 'soon', android: 'soon' }
   },
   {
     slug: 'pucktastic',
@@ -115,7 +120,7 @@ export const TASTIC_GAMES: TasticGame[] = [
     repo: 'https://github.com/jayrdeaton/PuckTastic',
     origin: 'https://pucktastic.vercel.app',
     // The BoxHockey app grown into four games (2026-11-11), so it keeps BoxHockey's App Store listing
-    appStore: 'https://apps.apple.com/app/id6824717751',
+    platforms: { ios: 'https://apps.apple.com/app/id6824717751', android: 'soon' },
     // Box Hockey was an app of its own until 2026-11-11; Air Hockey and Paddles (Pong's successor) were coming soon
     games: [
       { name: 'Box Hockey', path: 'loadout/boxhockey', formerSlug: 'boxhockey' },
@@ -133,7 +138,7 @@ export type OtherApp = StoreLinks & {
   /** Its splash art at 192px, like the Tastic icons */
   icon: string
   /** Its own site: these aren't proxied under /<slug>/ */
-  url: string
+  url: `https://${string}`
   repo: string
 }
 
@@ -147,7 +152,7 @@ export const MORE_TO_PLAY: OtherApp[] = [
     icon: '/images/swirlio.png',
     url: 'https://swirlio.infinitetoken.com',
     repo: 'https://github.com/jayrdeaton/Swirlio',
-    appStore: 'https://apps.apple.com/app/id6824430243'
+    platforms: { ios: 'https://apps.apple.com/app/id6824430243', android: 'soon' }
   }
 ]
 

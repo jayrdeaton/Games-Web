@@ -10,6 +10,8 @@ const pkg: { displayName: string; description: string } = JSON.parse(readFileSyn
 export default defineNuxtConfig({
   compatibilityDate: '2025-11-01',
   srcDir: 'src',
+  // PlatformChips and the platform types, shared with www.infinitetoken.com and jaydeaton.com
+  extends: ['@infinitetoken/site-kit'],
   devtools: { enabled: true },
   // No @vite-pwa/nuxt, unlike the siblings: a service worker scoped to / would also control the proxied games under
   // /<slug>/ and could answer their navigations with this site's cached pages. No @nuxtjs/color-mode either: the site
