@@ -131,6 +131,50 @@ export const TASTIC_GAMES: TasticGame[] = [
   }
 ]
 
+/** Apple's ID for Infinite Token LLC's developer team, which signs the iOS apps. With a bundle ID it makes the app ID that
+ *  /.well-known/apple-app-site-association names */
+export const APPLE_TEAM_ID = '6J8NCZC8G6'
+
+/** A game with online play. A friend's invite link, https://games.infinitetoken.com/<slug>/join/<code>, opens the match in
+ *  the game where it's installed (a universal link on iOS, a verified App Link on Android) and its invite page here where
+ *  it isn't (src/pages/[game]/join/[[code]].vue). The two /.well-known files that tie the links to the apps are built
+ *  from this list (src/utils/appLinks.ts) */
+export type OnlineGame = {
+  slug: string
+  name: string
+  /** Its splash art at 192px, as the Tastic cards draw it */
+  icon: string
+  /** The link preview every one of its invites shares (1200x630), rendered from scripts/<slug>-invite.html */
+  ogImage: string
+  /** The app's URL scheme, for Open in <name>: iOS doesn't open an app from a universal link typed or pasted into Safari */
+  scheme: string
+  /** Its app.json ios.bundleIdentifier and android.package */
+  bundleId: string
+  androidPackage: string
+  /** Where the invite page sends someone without the game, as platform chips. While online play is in friends' builds
+   *  only, a TestFlight public link and Google Play's test track; once it's in the stores, the listings. 'soon' until
+   *  there is one */
+  get: Pick<Platforms, 'ios' | 'android'>
+  /** SHA-256 fingerprints of the keys its Android builds are signed with (Play App Signing's from Play Console, and EAS's
+   *  for builds from outside Play), for /.well-known/assetlinks.json. Empty until they're known, and Android opens the
+   *  links in the browser until then */
+  androidFingerprints: string[]
+}
+
+export const ONLINE_GAMES: OnlineGame[] = [
+  {
+    slug: 'hexfleet',
+    name: 'HexFleet',
+    icon: '/images/tastic/hexfleet.png',
+    ogImage: '/images/hexfleet-invite.png',
+    scheme: 'hexfleet',
+    bundleId: 'com.jayrdeaton.HexFleet',
+    androidPackage: 'com.jayrdeaton.HexFleet',
+    get: { ios: 'soon', android: 'soon' },
+    androidFingerprints: []
+  }
+]
+
 export type OtherApp = StoreLinks & {
   name: string
   author: Author

@@ -1,0 +1,53 @@
+<!doctype html>
+<!-- The link preview every HexFleet invite shares (public/images/hexfleet-invite.png, 1200x630), the site's card (og-image.html)
+     with the game's icon. Rerender after changing it, from the repo root:
+     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless --hide-scrollbars --window-size=1200,630 \
+       --screenshot="$PWD/public/images/hexfleet-invite.png" "file://$PWD/scripts/hexfleet-invite.html"
+     The icon is read from HexFleet's own repo, checked out beside this one (assets/images/icon.png) -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      * { margin: 0; box-sizing: border-box; }
+      html, body { width: 1200px; height: 630px; overflow: hidden; }
+      body {
+        background: #09090b;
+        color: #fafafa;
+        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 72px;
+        padding: 0 96px;
+      }
+      .dots {
+        position: absolute; inset: 0;
+        background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+        background-size: 24px 24px;
+      }
+      .glow { position: absolute; border-radius: 50%; filter: blur(110px); }
+      .glow.indigo { left: -200px; top: -260px; width: 760px; height: 560px; background: rgba(99, 102, 241, 0.22); }
+      .glow.violet { right: -160px; bottom: -280px; width: 720px; height: 520px; background: rgba(139, 92, 246, 0.16); }
+      .icon { position: relative; width: 340px; height: 340px; flex: none; border-radius: 76px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6); }
+      .text { position: relative; }
+      .eyebrow { font-size: 28px; font-weight: 600; letter-spacing: 6px; text-transform: uppercase; color: #a1a1aa; }
+      h1 { margin-top: 14px; font-size: 80px; font-weight: 800; letter-spacing: -2px; line-height: 1.04; }
+      .game {
+        background: linear-gradient(90deg, #818cf8, #a78bfa, #c084fc);
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+      }
+      p { margin-top: 22px; font-size: 30px; line-height: 1.35; color: #a1a1aa; max-width: 600px; }
+    </style>
+  </head>
+  <body>
+    <div class="dots"></div>
+    <div class="glow indigo"></div>
+    <div class="glow violet"></div>
+    <img class="icon" src="../../HexFleet/assets/images/icon.png" alt="" />
+    <div class="text">
+      <div class="eyebrow">You're invited</div>
+      <h1>A <span class="game">HexFleet</span><br />match</h1>
+      <p>A friend is waiting for you. Open the link on your phone to join.</p>
+    </div>
+  </body>
+</html>

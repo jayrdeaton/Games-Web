@@ -4,6 +4,11 @@
 // Nitro places ahead of its own routes in .vercel/output/config.json.
 export type VercelRoute = { src: string; dest: string } | { src: string; status: number; headers: Record<string, string> }
 
+// An online game's invite links (/<slug>/join/<code>) all show its one prerendered invite page, which reads the code from
+// its own address (src/pages/[game]/join/[[code]].vue). Ahead of the game proxies, so they still answer once the game's
+// web build is on the hub
+export const inviteRoutes = (games: { slug: string }[]): VercelRoute[] => games.map(({ slug }) => ({ src: `^/${slug}/join/[^/]+/?$`, dest: `/${slug}/join` }))
+
 export const vercelRoutes = (games: { slug: string; origin: string; formerSlugs?: string[]; games?: { path: string; formerSlug?: string }[] }[]): VercelRoute[] =>
   games.flatMap(({ slug, origin, formerSlugs = [], games: packGames = [] }) => [
     // A game's old path after a rename (Solitaire became CardTastic, 2026-11-11) goes to the same page under its new one

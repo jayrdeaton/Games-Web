@@ -3,9 +3,10 @@ import { readFileSync } from 'node:fs'
 import tailwindcss from '@tailwindcss/vite'
 
 import type {} from './.nuxt/nuxt.node.d.ts'
-import { CARTRIDGES, SITE, TASTIC_GAMES } from './src/constants/site'
+import { CARTRIDGES, ONLINE_GAMES, SITE, TASTIC_GAMES } from './src/constants/site'
+import { invitePath } from './src/utils/appLinks'
 import { HOME_DESCRIPTION, HOME_TITLE, OG_IMAGE } from './src/utils/seo'
-import { vercelRoutes } from './src/utils/vercelRoutes'
+import { inviteRoutes, vercelRoutes } from './src/utils/vercelRoutes'
 const pkg: { displayName: string; description: string } = JSON.parse(readFileSync('./package.json', 'utf-8'))
 export default defineNuxtConfig({
   compatibilityDate: '2025-11-01',
@@ -59,13 +60,14 @@ export default defineNuxtConfig({
   },
   nitro: {
     prerender: {
-      routes: ['/', '/privacy', '/terms', '/support', '/sitemap.xml', ...CARTRIDGES.map((c) => `/6502/${c.slug}`)],
+      // The online games' invite pages and the two files that tie their links to the apps (src/utils/appLinks.ts)
+      routes: ['/', '/privacy', '/terms', '/support', '/sitemap.xml', ...CARTRIDGES.map((c) => `/6502/${c.slug}`), ...ONLINE_GAMES.map((g) => invitePath(g.slug)), '/.well-known/apple-app-site-association', '/.well-known/assetlinks.json'],
       crawlLinks: true,
       // The Tastic games are other deployments behind the proxy routes below, not pages of this site
       ignore: TASTIC_GAMES.map((g) => `/${g.slug}`)
     },
     vercel: {
-      config: { routes: vercelRoutes(TASTIC_GAMES) }
+      config: { routes: [...inviteRoutes(ONLINE_GAMES), ...vercelRoutes(TASTIC_GAMES)] }
     }
   }
 })
