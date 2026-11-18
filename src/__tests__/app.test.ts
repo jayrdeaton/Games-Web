@@ -166,6 +166,7 @@ describe('privacy, terms and support', () => {
     for (const game of TASTIC_GAMES) expect(wrapper.text()).toContain(game.storeName)
     for (const game of ONLINE_GAMES) expect(wrapper.text()).toContain(game.name)
     expect(wrapper.text()).toContain('Online Play in HexFleet')
+    expect(wrapper.text()).toContain('Daily Leaderboards in CardTastic')
     expect(wrapper.html()).toContain(`mailto:${SITE.email}`)
   })
 

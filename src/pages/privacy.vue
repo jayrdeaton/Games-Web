@@ -13,18 +13,18 @@
 
       <section :class="section">
         <p :class="body">This policy covers the Tastic games made by {{ SITE.company.name }} ({{ storeNames }}) on iPhone, iPad, Android, and the web, and this website, games.infinitetoken.com, including its 6502 cartridge pages.</p>
-        <p :class="body" class="mt-3">The short version: the games don't sell or share your personal information, and there's no sign-in, no ads, no analytics, and no tracking. Everything stays on your device, except what HexFleet needs when you choose to play a friend online.</p>
+        <p :class="body" class="mt-3">The short version: the games don't sell or share your personal information, and there's no sign-in, no ads, no analytics, and no tracking. Everything stays on your device, except what's needed when you choose to play a friend online in HexFleet or play a daily deal in CardTastic.</p>
       </section>
 
       <section :class="section">
         <h2 :class="heading">Data That Stays on Your Device</h2>
-        <p :class="body">Apart from HexFleet's online play (below), everything a game saves is stored on your device and never sent to us. That includes:</p>
+        <p :class="body">Apart from HexFleet's online play and CardTastic's daily leaderboards (below), everything a game saves is stored on your device and never sent to us. That includes:</p>
         <ul :class="list">
           <li>Game progress, settings, stats, and achievements</li>
           <li>Player profiles: the names and colors you choose</li>
           <li>Puzzle packs you create in HangmanTastic</li>
         </ul>
-        <p :class="body" class="mt-3">On iPhone and iPad, player profiles are shared between the Tastic games installed on the same device, using an App Group (an iOS feature that lets apps from the same developer share storage on that device). On the web, the games on this site share player profiles through your browser's storage for this site. Either way, profiles stay on your device; only the name you play under is sent when you play HexFleet online.</p>
+        <p :class="body" class="mt-3">On iPhone and iPad, player profiles are shared between the Tastic games installed on the same device, using an App Group (an iOS feature that lets apps from the same developer share storage on that device). On the web, the games on this site share player profiles through your browser's storage for this site. Either way, profiles stay on your device, except the details the two sections below list, sent only when you use those features.</p>
         <p :class="body" class="mt-3">Deleting a game deletes its data, and shared profiles are removed once every Tastic game is deleted from the device. On the web, clearing your browser data for this site removes everything the games saved.</p>
       </section>
 
@@ -39,6 +39,18 @@
         </ul>
         <p :class="body" class="mt-3">Your friend sees the name, faction, and color you play under, and each of you is sent only what your side of the battle can see. Notifications go through Expo's push service and on to Apple or Google, carrying the message itself, such as "Turn 3 against Sam: your move." The server runs on Amazon Web Services and keeps its data with Supabase, both in the United States. Like any internet request, it sees your IP address, which it uses only in memory to limit how often requests can come in; it isn't logged or stored. We use this information only to run your matches, and we never sell it.</p>
         <p :class="body" class="mt-3">Matches stay on the server after they end. To remove your online data, use Delete Online Data in HexFleet's Settings: matches you're still playing are forfeited, your name is replaced in your friends' copies of past matches, and your player ID and push token are deleted. Deleting the app doesn't do this, so use Delete Online Data first. See <a href="https://expo.dev/privacy" target="_blank" rel="noopener" :class="link">Expo's Privacy Policy</a> and <a href="https://supabase.com/privacy" target="_blank" rel="noopener" :class="link">Supabase's Privacy Policy</a>.</p>
+      </section>
+
+      <section :class="section">
+        <h2 :class="heading">Daily Leaderboards in CardTastic</h2>
+        <p :class="body">CardTastic's daily deals give everyone the same shuffle and rank the day's winners. They run on the same game server as HexFleet's online play, with the same hosting and the same handling of your IP address. Nothing is sent until you start a daily deal, and it never asks for an email or a password. The server keeps:</p>
+        <ul :class="list">
+          <li>Your player profile's name, tag (one emoji or up to three characters), and color</li>
+          <li>A random player ID. Your device keeps a signed key that proves the ID is yours</li>
+          <li>When you started each daily deal and, if you win it, when you finished, with your moves, time, and score</li>
+          <li>The moves of your winning game, which the server replays to check the result</li>
+        </ul>
+        <p :class="body" class="mt-3">Leaderboards are visible to everyone playing. They show your tag and color with your moves, time, and score, and never your name. Tags are checked against a list of offensive words and emoji. We use this information only to run the leaderboards, and we never sell it. Deleting your online data in CardTastic's Settings removes your player ID and everything you've posted to the boards.</p>
       </section>
 
       <section :class="section">
@@ -68,7 +80,7 @@
 
       <section :class="section">
         <h2 :class="heading">Children</h2>
-        <p :class="body">The games are made for players of all ages. Played on one device, they collect nothing from anyone. HexFleet's online play keeps only what's listed above: a name the player picks, which doesn't have to be a real one, and matches with friends they invite. There's no chat, and it never asks for contact details.</p>
+        <p :class="body">The games are made for players of all ages. Played on one device, they collect nothing from anyone. HexFleet's online play and CardTastic's daily leaderboards keep only what's listed above: a name the player picks, which doesn't have to be a real one, and their matches or daily results. Leaderboards show a tag and color, never the name. There's no chat, and neither asks for contact details.</p>
       </section>
 
       <section :class="section">
@@ -90,7 +102,7 @@
 import { EMULATOR, ONLINE_GAMES, SITE, TASTIC_GAMES } from '~/constants/site'
 import { backLink, body, card, link } from '~/constants/styles'
 
-const UPDATED = 'November 17, 2026'
+const UPDATED = 'November 18, 2026'
 // The Tastic games, then the online games that aren't one of them (HexFleet), so the policy names every game it covers
 const names = [...TASTIC_GAMES.map((g) => g.storeName), ...ONLINE_GAMES.filter((o) => !TASTIC_GAMES.some((g) => g.slug === o.slug)).map((o) => o.name)]
 const storeNames = `${names.slice(0, -1).join(', ')}, and ${names.at(-1)}`
@@ -102,6 +114,6 @@ const list = 'list-disc list-outside ml-5 mt-3 space-y-1.5 text-sm text-zinc-400
 usePageSeo({
   path: '/privacy',
   title: `${SITE.name} | Privacy Policy`,
-  description: `The privacy policy for ${SITE.company.name}'s games and this site. No sign-in, ads, analytics or tracking, and nothing leaves your device but what HexFleet's online play needs.`
+  description: `The privacy policy for ${SITE.company.name}'s games and this site. No sign-in, ads, analytics or tracking, and nothing leaves your device but what online play and daily leaderboards need.`
 })
 </script>
