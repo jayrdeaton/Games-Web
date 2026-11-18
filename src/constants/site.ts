@@ -91,7 +91,7 @@ export const TASTIC_GAMES: TasticGame[] = [
     icon: '/images/tastic/dueltastic.png',
     repo: 'https://github.com/jayrdeaton/DuelTastic',
     origin: 'https://dueltastic.vercel.app',
-    platforms: { ios: 'soon', android: 'soon' },
+    platforms: { ios: 'https://apps.apple.com/app/id6834025841', android: 'soon' },
     // LightCycles (as Trap) and Snake were apps of their own until 2026-11-11
     games: [
       { name: 'Trap', path: 'loadout/trap', formerSlug: 'lightcycles' },
