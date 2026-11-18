@@ -1,6 +1,7 @@
 <template>
-  <!-- An online game's invite (https://games.infinitetoken.com/<slug>/join/<code>), for someone without the game: where
-       it's installed, the link opens the match in it and never shows this page. Every invite is this one prerendered
+  <!-- An online game's invite (https://games.infinitetoken.com/<slug>/join/<code>), for someone without the app: where
+       it's installed, the link opens the match in it and never shows this page. A game with a web build can be played
+       from here with nothing installed. Every invite is this one prerendered
        page (src/utils/vercelRoutes.ts's inviteRoutes), so the code is read from the address once it's in the browser,
        and the page fetches nothing -->
   <main class="max-w-3xl mx-auto w-full px-6 pt-10 pb-16">
@@ -12,7 +13,7 @@
 
     <img :src="game.icon" alt="" class="w-20 h-20 mb-4" />
     <h1 class="text-3xl font-bold tracking-tight text-white mb-2">You're Invited to a {{ game.name }} Match</h1>
-    <p class="text-zinc-400 leading-relaxed mb-8">A friend is waiting for you. Get {{ game.name }}, then join their match with this code.</p>
+    <p class="text-zinc-400 leading-relaxed mb-8">{{ intro }}</p>
 
     <div class="space-y-4">
       <div :class="card">
@@ -24,14 +25,20 @@
         <p v-else-if="mounted" :class="body">This link is missing its code. Ask your friend for the six letters and numbers on their invite.</p>
       </div>
 
+      <div v-if="playsInBrowser && code" :class="card">
+        <h2 class="font-semibold mb-1">Play in Your Browser</h2>
+        <p :class="body" class="mb-4">Nothing to install. Join the match right here, on this phone or computer.</p>
+        <a :href="browserJoinPath(game.slug, code)" :class="primaryButton">Join the Match</a>
+      </div>
+
       <div :class="card">
-        <h2 class="font-semibold mb-1">1. Get {{ game.name }}</h2>
+        <h2 class="font-semibold mb-1">{{ playsInBrowser ? 'Or Get the App' : `1. Get ${game.name}` }}</h2>
         <p :class="body" class="mb-4">{{ getText }}</p>
         <PlatformChips :platforms="game.get" :name="game.name" label="" class="text-zinc-400" />
       </div>
 
       <div :class="card">
-        <h2 class="font-semibold mb-1">2. Join the Match</h2>
+        <h2 class="font-semibold mb-1">{{ playsInBrowser ? 'Already Have the App?' : '2. Join the Match' }}</h2>
         <p :class="body" class="mb-4">Open {{ game.name }}, go to Online, and paste the code under Have a Code. If you already have {{ game.name }}, this opens the match in it.</p>
         <a v-if="code" :href="`${game.scheme}://join/${code}`" :class="secondaryButton" :aria-label="`Open the match in ${game.name}`">Open</a>
       </div>
@@ -40,15 +47,18 @@
 </template>
 
 <script setup lang="ts">
-import { ONLINE_GAMES } from '~/constants/site'
+import { ONLINE_GAMES, TASTIC_GAMES } from '~/constants/site'
 import { backLink, body, card, primaryButton, secondaryButton, sectionHeading } from '~/constants/styles'
-import { inviteCode, invitePath } from '~/utils/appLinks'
+import { browserJoinPath, inviteCode, invitePath } from '~/utils/appLinks'
 import { pageUrl } from '~/utils/seo'
 
 const route = useRoute()
 const found = ONLINE_GAMES.find((g) => g.slug === route.params.game)
 if (!found) throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 const game = found
+// A game with a web build on this site can be joined right here
+const playsInBrowser = TASTIC_GAMES.some((g) => g.slug === game.slug)
+const intro = playsInBrowser ? `A friend is waiting for you. Join their ${game.name} match in your browser, or in the app with this code.` : `A friend is waiting for you. Get ${game.name}, then join their match with this code.`
 
 // The code is only in the address, so it's read once the page is in the browser. Nuxt's router starts on the path the
 // page was prerendered at (/<slug>/join) and puts that in the address bar, so this script, which runs before Nuxt does,
@@ -84,7 +94,7 @@ const getText = computed(() => (Object.values(game.get).some((link) => link !== 
 usePageSeo({
   path: invitePath(game.slug),
   title: `You're invited to a ${game.name} match`,
-  description: `A friend is waiting for you in ${game.name}. Open this link on your phone to join their match.`
+  description: `A friend is waiting for you in ${game.name}. Open this link to join their match.`
 })
 // The same preview for every invite (the message it's sent in names who sent it), and no invite in search results
 useSeoMeta({ ogImage: pageUrl(game.ogImage), twitterImage: pageUrl(game.ogImage), robots: 'noindex' })

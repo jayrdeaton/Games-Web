@@ -31,7 +31,7 @@
 
       <section :class="section">
         <h2 :class="heading">Open Source</h2>
-        <p :class="body">Every game's source code is on GitHub under the MIT License, linked from its card on the home page. That license, not these terms, sets what you can do with the code: use it, change it, and share it, in your own projects too, as long as its copyright and license notice go with it.</p>
+        <p :class="body">A game with a Source link on its card on the home page has its source code on GitHub under the MIT License. That license, not these terms, sets what you can do with the code: use it, change it, and share it, in your own projects too, as long as its copyright and license notice go with it.</p>
         <p :class="body" class="mt-3">The license covers the code only. Each game's name, logo, and icons, and its original artwork and audio, aren't covered by it and remain all rights reserved. If you build on a game, give your version its own name and look. Material a game uses from other people, such as fonts and card artwork, stays under its own license.</p>
         <p :class="body" class="mt-3">The 6502 cartridges, and {{ EMULATOR.author }}'s {{ EMULATOR.name }} they run in, are open source under the MIT License too, each in its own repository on GitHub.</p>
       </section>
@@ -81,7 +81,7 @@
 import { EMULATOR, MORE_TO_PLAY, SECTIONS, SITE } from '~/constants/site'
 import { backLink, body, card, link } from '~/constants/styles'
 
-const UPDATED = 'November 12, 2026'
+const UPDATED = 'November 18, 2026'
 // The legal name, as in the footer and every game's LICENSE
 const COMPANY = `${SITE.company.name} LLC`
 const moreLabel = SECTIONS.find((s) => s.id === 'more')!.label
@@ -92,6 +92,6 @@ const heading = 'text-lg font-semibold text-white mb-3'
 usePageSeo({
   path: '/terms',
   title: `${SITE.name} | Terms of Use`,
-  description: `The terms of use for ${SITE.company.name}'s games and this site. The games are free and open source, with no ads, no accounts and nothing to buy.`
+  description: `The terms of use for ${SITE.company.name}'s games and this site. The games are free, with no ads, no accounts and nothing to buy.`
 })
 </script>

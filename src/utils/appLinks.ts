@@ -3,6 +3,9 @@ import { APPLE_TEAM_ID, type OnlineGame } from '../constants/site'
 /** An invite's path under a game's slug: /<slug>/join/<code> */
 export const invitePath = (slug: string) => `/${slug}/join`
 
+/** Where an invite's Play in Your Browser goes: the game's own Online screen under /<slug>/, with the code filled in */
+export const browserJoinPath = (slug: string, code: string) => `/${slug}/online?code=${encodeURIComponent(code)}`
+
 /** /.well-known/apple-app-site-association: each online game's iOS app opens its invite links (a universal link), so a
  *  tap on one goes straight to the match where the game is installed. Apple's CDN reads it when the app is installed, so
  *  it has to be live before friends install. Everything else on the site stays in the browser */

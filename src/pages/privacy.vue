@@ -30,15 +30,15 @@
 
       <section :class="section">
         <h2 :class="heading">Online Play in HexFleet</h2>
-        <p :class="body">HexFleet's online play, in beta, runs on our own game server, which carries each match between your phone and your friend's. Nothing is sent until you start or join an online match, and it never asks for an email, a password, or your real name. To run your matches, the server keeps:</p>
+        <p :class="body">HexFleet's online play, in beta, runs on our own game server, which carries each match between your device and your friend's, in the app or in your browser. Nothing is sent until you start or join an online match, and it never asks for an email, a password, or your real name. To run your matches, the server keeps:</p>
         <ul :class="list">
           <li>The name, faction, and color you play under: your player profile's name, or one you type</li>
-          <li>A random player ID. Your device keeps a signed key that proves the ID is yours</li>
+          <li>A random player ID. Your device keeps a signed key that proves the ID is yours: in the app's secure storage, or in your browser's storage for this site</li>
           <li>Your matches: the moves each side planned and how each turn played out</li>
-          <li>If you allow notifications, your device's push token, so we can tell you when it's your move</li>
+          <li>If you allow notifications in the app, your device's push token, so we can tell you when it's your move. The browser version doesn't send notifications</li>
         </ul>
         <p :class="body" class="mt-3">Your friend sees the name, faction, and color you play under, and each of you is sent only what your side of the battle can see. Notifications go through Expo's push service and on to Apple or Google, carrying the message itself, such as "Turn 3 against Sam: your move." The server runs on Amazon Web Services and keeps its data with Supabase, both in the United States. Like any internet request, it sees your IP address, which it uses only in memory to limit how often requests can come in; it isn't logged or stored. We use this information only to run your matches, and we never sell it.</p>
-        <p :class="body" class="mt-3">Matches stay on the server after they end. To remove your online data, use Delete Online Data in HexFleet's Settings: matches you're still playing are forfeited, your name is replaced in your friends' copies of past matches, and your player ID and push token are deleted. Deleting the app doesn't do this, so use Delete Online Data first. See <a href="https://expo.dev/privacy" target="_blank" rel="noopener" :class="link">Expo's Privacy Policy</a> and <a href="https://supabase.com/privacy" target="_blank" rel="noopener" :class="link">Supabase's Privacy Policy</a>.</p>
+        <p :class="body" class="mt-3">Matches stay on the server after they end. To remove your online data, use Delete Online Data in HexFleet's Settings: matches you're still playing are forfeited, your name is replaced in your friends' copies of past matches, and your player ID and push token are deleted. Deleting the app or clearing your browser's data doesn't do this, so use Delete Online Data first. See <a href="https://expo.dev/privacy" target="_blank" rel="noopener" :class="link">Expo's Privacy Policy</a> and <a href="https://supabase.com/privacy" target="_blank" rel="noopener" :class="link">Supabase's Privacy Policy</a>.</p>
       </section>
 
       <section :class="section">
@@ -46,7 +46,7 @@
         <p :class="body">CardTastic's daily deals give everyone the same shuffle and rank the day's winners. They run on the same game server as HexFleet's online play, with the same hosting and the same handling of your IP address. Nothing is sent until you start a daily deal, and it never asks for an email or a password. The server keeps:</p>
         <ul :class="list">
           <li>Your player profile's name, tag (one emoji or up to three characters), and color</li>
-          <li>A random player ID. Your device keeps a signed key that proves the ID is yours</li>
+          <li>A random player ID. Your device keeps a signed key that proves the ID is yours: in the app's secure storage, or in your browser's storage for this site</li>
           <li>When you started each daily deal and, if you win it, when you finished, with your moves, time, and score</li>
           <li>The moves of your winning game, which the server replays to check the result</li>
         </ul>

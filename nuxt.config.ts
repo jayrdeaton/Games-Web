@@ -63,8 +63,9 @@ export default defineNuxtConfig({
       // The online games' invite pages and the two files that tie their links to the apps (src/utils/appLinks.ts)
       routes: ['/', '/privacy', '/terms', '/support', '/sitemap.xml', ...CARTRIDGES.map((c) => `/6502/${c.slug}`), ...ONLINE_GAMES.map((g) => invitePath(g.slug)), '/.well-known/apple-app-site-association', '/.well-known/assetlinks.json'],
       crawlLinks: true,
-      // The Tastic games are other deployments behind the proxy routes below, not pages of this site
-      ignore: TASTIC_GAMES.map((g) => `/${g.slug}`)
+      // The Tastic games are other deployments behind the proxy routes below, not pages of this site, apart from an online
+      // game's invite page at /<slug>/join (a plain string here would match it too: Nitro compares by prefix)
+      ignore: TASTIC_GAMES.map((g) => new RegExp(`^/${g.slug}(?!/join(?:/|$))`))
     },
     vercel: {
       config: { routes: [...inviteRoutes(ONLINE_GAMES), ...vercelRoutes(TASTIC_GAMES)] }

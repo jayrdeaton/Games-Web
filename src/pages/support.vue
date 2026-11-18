@@ -19,9 +19,9 @@
 
       <div :class="card">
         <h2 class="font-semibold mb-1">Report an Issue</h2>
-        <p :class="body" class="mb-4">Every game is open source. If you have a GitHub account, you can open an issue on its repository.</p>
+        <p :class="body" class="mb-4">If you have a GitHub account, you can open an issue on these games' repositories. For any other game, email us.</p>
         <ul class="grid sm:grid-cols-2 gap-x-6 gap-y-2 text-sm">
-          <li v-for="game in TASTIC_GAMES" :key="game.slug">
+          <li v-for="game in TASTIC_GAMES.filter((g) => g.repo)" :key="game.slug">
             <a :href="`${game.repo}/issues`" target="_blank" rel="noopener" :class="link">{{ game.name }}</a>
           </li>
           <li v-for="cart in CARTRIDGES" :key="cart.slug">

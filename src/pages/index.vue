@@ -47,7 +47,7 @@
             <div class="mt-auto flex flex-col gap-5">
               <div class="flex flex-wrap gap-3">
                 <a :href="`/${game.slug}/`" :class="primaryButton">Play</a>
-                <a :href="game.repo" target="_blank" rel="noopener" :class="secondaryButton">Source</a>
+                <a v-if="game.repo" :href="game.repo" target="_blank" rel="noopener" :class="secondaryButton">Source</a>
               </div>
               <PlatformChips :platforms="{ web: `/${game.slug}/`, ...game.platforms }" :name="game.name" class="text-zinc-400" />
             </div>

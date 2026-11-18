@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { APPLE_TEAM_ID, ONLINE_GAMES, type OnlineGame, TASTIC_GAMES } from '~/constants/site'
-import { appleAppSiteAssociation, assetLinks, inviteCode, invitePath } from '~/utils/appLinks'
+import { appleAppSiteAssociation, assetLinks, browserJoinPath, inviteCode, invitePath } from '~/utils/appLinks'
 import { inviteRoutes, vercelRoutes } from '~/utils/vercelRoutes'
 
 const hexfleet = ONLINE_GAMES.find((g) => g.slug === 'hexfleet') as OnlineGame
@@ -23,9 +23,15 @@ describe('invite links', () => {
     const first = (path: string) => routes.find((r) => new RegExp(r.src).test(path))
     expect(first('/hexfleet/join/K7Q2PX')).toEqual({ src: expect.any(String), dest: invitePath('hexfleet') })
     expect(first('/hexfleet/join/K7Q2PX/')).toMatchObject({ dest: '/hexfleet/join' })
-    // The page itself and anything deeper aren't rewritten
-    expect(first('/hexfleet/join')).toBeUndefined()
-    expect(first('/hexfleet/join/K7Q2PX/more')).toBeUndefined()
+    // The page's own address stays here too, and anything deeper is the game's
+    expect(first('/hexfleet/join')).toMatchObject({ dest: '/hexfleet/join' })
+    expect(first('/hexfleet/join/K7Q2PX/more')).toMatchObject({ dest: expect.stringContaining('/hexfleet/$1') })
+  })
+
+  it("joins from the browser on the game's own Online screen, which no invite route catches", () => {
+    expect(browserJoinPath('hexfleet', 'K7Q2PX')).toBe('/hexfleet/online?code=K7Q2PX')
+    const routes = [...inviteRoutes(ONLINE_GAMES), ...vercelRoutes(TASTIC_GAMES)]
+    expect(routes.find((r) => new RegExp(r.src).test('/hexfleet/online'))).toMatchObject({ dest: `${TASTIC_GAMES.find((g) => g.slug === 'hexfleet')!.origin}/hexfleet/$1` })
   })
 
   it('reads the code the way the app does', () => {

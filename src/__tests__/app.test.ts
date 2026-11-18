@@ -172,7 +172,7 @@ describe('privacy, terms and support', () => {
 
   it("links to every game's issue tracker", async () => {
     const wrapper = await mountSuspended(App, { route: '/support' })
-    for (const repo of [...TASTIC_GAMES, ...CARTRIDGES].map((g) => g.repo)) expect(wrapper.find(`a[href="${repo}/issues"]`).exists()).toBe(true)
+    for (const repo of [...TASTIC_GAMES, ...CARTRIDGES].flatMap((g) => g.repo ?? [])) expect(wrapper.find(`a[href="${repo}/issues"]`).exists()).toBe(true)
   })
 
   it.each(['/', '/privacy', '/terms', '/support', `/6502/${CARTRIDGES[0]!.slug}`])('links Terms right after Privacy in the footer on %s', async (route) => {
@@ -247,7 +247,7 @@ describe('site content', () => {
 
   it('names each store listing after its game, plus "Tastic" unless it already ends in it', () => {
     // "CardTastic" alone was taken on the App Store (2026-11-08)
-    const exceptions: Record<string, string> = { CardTastic: 'CardTastic: Solitaire & More' }
+    const exceptions: Record<string, string> = { CardTastic: 'CardTastic: Solitaire & More', HexFleet: 'HexFleet' }
     for (const game of TASTIC_GAMES) expect(game.storeName).toBe(exceptions[game.name] ?? (game.name.endsWith('Tastic') ? game.name : `${game.name}Tastic`))
   })
 

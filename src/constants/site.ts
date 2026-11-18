@@ -57,7 +57,8 @@ export type TasticGame = StoreLinks & {
   description: string
   /** The game's splash art (assets/images/splash-dark.png at 192px), transparent, drawn bare on the dark card */
   icon: string
-  repo: string
+  /** Its public source. Left out while the repository is private, and the card and support page then have no link to it */
+  repo?: string
   /** The game's own production deployment, which /<slug>/ is proxied to (see src/utils/vercelRoutes.ts). The
    *  <project>-infinite-token.vercel.app aliases sit behind Vercel's login, so these are the public production aliases. */
   origin: string
@@ -108,6 +109,16 @@ export const TASTIC_GAMES: TasticGame[] = [
     icon: '/images/tastic/hangman.png',
     repo: 'https://github.com/jayrdeaton/Hangman',
     origin: 'https://hangman-teal-psi.vercel.app',
+    platforms: { ios: 'soon', android: 'soon' }
+  },
+  {
+    slug: 'hexfleet',
+    name: 'HexFleet',
+    author: AUTHORS.jay,
+    storeName: 'HexFleet',
+    description: 'Turn-based starship battles on a hex grid. Plan in secret, then watch every shot play out at once. Take on the CPU, pass the screen, or challenge a friend online.',
+    icon: '/images/tastic/hexfleet.png',
+    origin: 'https://hexfleet.vercel.app',
     platforms: { ios: 'soon', android: 'soon' }
   },
   {
