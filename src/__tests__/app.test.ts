@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from 'vitest'
 
 import App from '~/app.vue'
 import TipCard from '~/components/TipCard.vue'
-import { AUTHORS, CARTRIDGES, COMING_SOON, EMULATOR, MORE_TO_PLAY, SECTIONS, SITE, TASTIC_GAMES } from '~/constants/site'
+import { AUTHORS, CARTRIDGES, COMING_SOON, EMULATOR, MORE_TO_PLAY, ONLINE_GAMES, SECTIONS, SITE, TASTIC_GAMES } from '~/constants/site'
 import { HOME_DESCRIPTION } from '~/utils/seo'
 
 describe('home page', () => {
@@ -161,9 +161,11 @@ describe('credits', () => {
 })
 
 describe('privacy, terms and support', () => {
-  it('names every Tastic game by its store name and gives the contact email', async () => {
+  it('names every Tastic game by its store name, every online game, and gives the contact email', async () => {
     const wrapper = await mountSuspended(App, { route: '/privacy' })
     for (const game of TASTIC_GAMES) expect(wrapper.text()).toContain(game.storeName)
+    for (const game of ONLINE_GAMES) expect(wrapper.text()).toContain(game.name)
+    expect(wrapper.text()).toContain('Online Play in HexFleet')
     expect(wrapper.html()).toContain(`mailto:${SITE.email}`)
   })
 
