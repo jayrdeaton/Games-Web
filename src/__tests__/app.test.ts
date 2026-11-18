@@ -171,6 +171,13 @@ describe('privacy, terms and support', () => {
     expect(wrapper.html()).toContain(`mailto:${SITE.email}`)
   })
 
+  it('describes the update totals as the only analytics, as the store privacy forms do', async () => {
+    const text = (await mountSuspended(App, { route: '/privacy' })).find('main').text()
+    expect(text).toContain('The only analytics are the update totals described under Game Updates')
+    expect(text).toContain('we see only the totals, not individual players')
+    expect(text).not.toContain('no analytics')
+  })
+
   it('says who can see an online name, that online data stays until deleted, and links the delete page', async () => {
     const wrapper = await mountSuspended(App, { route: '/privacy' })
     const text = wrapper.find('main').text()

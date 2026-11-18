@@ -13,7 +13,7 @@
 
       <section :class="section">
         <p :class="body">This policy covers the Tastic games made by {{ SITE.company.name }} ({{ storeNames }}) on iPhone, iPad, Android, and the web, and this website, games.infinitetoken.com, including its 6502 cartridge pages.</p>
-        <p :class="body" class="mt-3">The short version: the games don't sell or share your personal information, and there's no sign-in, no ads, no analytics, and no tracking. What you save in a game stays on your device, except what's needed when you choose to play a friend online in HexFleet or play a daily deal in CardTastic.</p>
+        <p :class="body" class="mt-3">The short version: the games don't sell or share your personal information, and there's no sign-in, no ads, and no tracking. The only analytics are the update totals described under Game Updates. What you save in a game stays on your device, except what's needed when you choose to play a friend online in HexFleet or play a daily deal in CardTastic.</p>
       </section>
 
       <section :class="section">
@@ -58,7 +58,7 @@
 
       <section :class="section">
         <h2 :class="heading">Game Updates</h2>
-        <p :class="body">When you open one of the mobile apps, it checks for a game update using Expo's update service. That request includes technical details needed to deliver the right update, such as the app version and platform, and a random installation ID that isn't linked to you. If an update fails to start, the next check also reports which update failed and the error it hit, so a broken update can be fixed. Like any internet request, it also includes your IP address. It never includes your profiles, progress, or other game data. See <a href="https://expo.dev/privacy" target="_blank" rel="noopener" :class="link">Expo's Privacy Policy</a>.</p>
+        <p :class="body">When you open one of the mobile apps, it checks for a game update using Expo's update service. That request includes technical details needed to deliver the right update, such as the app version and platform, and a random installation ID that isn't linked to you. If an update fails to start, the next check also reports which update failed and the error it hit, so a broken update can be fixed. Expo uses these checks to give us totals for each update: how many times it launched, how many launches failed, its crash rate, and how many different installs ran it. We use them to see whether an update is working, and we see only the totals, not individual players. Like any internet request, the check also includes your IP address. It never includes your profiles, progress, or other game data. See <a href="https://expo.dev/privacy" target="_blank" rel="noopener" :class="link">Expo's Privacy Policy</a>.</p>
       </section>
 
       <section :class="section">
@@ -118,6 +118,6 @@ const list = 'list-disc list-outside ml-5 mt-3 space-y-1.5 text-sm text-zinc-400
 usePageSeo({
   path: '/privacy',
   title: `${SITE.name} | Privacy Policy`,
-  description: `The privacy policy for ${SITE.company.name}'s games and this site. No sign-in, ads, analytics or tracking, and what you save in a game stays on your device, apart from what online play and daily leaderboards need.`
+  description: `The privacy policy for ${SITE.company.name}'s games and this site. No sign-in, ads or tracking, and what you save in a game stays on your device, apart from what online play and daily leaderboards need.`
 })
 </script>
