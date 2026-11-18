@@ -13,7 +13,7 @@
 
       <section :class="section">
         <p :class="body">This policy covers the Tastic games made by {{ SITE.company.name }} ({{ storeNames }}) on iPhone, iPad, Android, and the web, and this website, games.infinitetoken.com, including its 6502 cartridge pages.</p>
-        <p :class="body" class="mt-3">The short version: the games don't sell or share your personal information, and there's no sign-in, no ads, no analytics, and no tracking. Everything stays on your device, except what's needed when you choose to play a friend online in HexFleet or play a daily deal in CardTastic.</p>
+        <p :class="body" class="mt-3">The short version: the games don't sell or share your personal information, and there's no sign-in, no ads, no analytics, and no tracking. What you save in a game stays on your device, except what's needed when you choose to play a friend online in HexFleet or play a daily deal in CardTastic.</p>
       </section>
 
       <section :class="section">
@@ -34,11 +34,14 @@
         <ul :class="list">
           <li>The name, faction, and color you play under: your player profile's name, or one you type</li>
           <li>A random player ID. Your device keeps a signed key that proves the ID is yours: in the app's secure storage, or in your browser's storage for this site</li>
-          <li>Your matches: the moves each side planned and how each turn played out</li>
+          <li>Your matches: each one's invite code, the moves each side planned, and how each turn played out</li>
           <li>If you allow notifications in the app, your device's push token, so we can tell you when it's your move. The browser version doesn't send notifications</li>
         </ul>
-        <p :class="body" class="mt-3">Your friend sees the name, faction, and color you play under, and each of you is sent only what your side of the battle can see. Notifications go through Expo's push service and on to Apple or Google, carrying the message itself, such as "Turn 3 against Sam: your move." The server runs on Amazon Web Services and keeps its data with Supabase, both in the United States. Like any internet request, it sees your IP address, which it uses only in memory to limit how often requests can come in; it isn't logged or stored. We use this information only to run your matches, and we never sell it.</p>
-        <p :class="body" class="mt-3">Matches stay on the server after they end. To remove your online data, use Delete Online Data in HexFleet's Settings: matches you're still playing are forfeited, your name is replaced in your friends' copies of past matches, and your player ID and push token are deleted. Deleting the app or clearing your browser's data doesn't do this, so use Delete Online Data first. See <a href="https://expo.dev/privacy" target="_blank" rel="noopener" :class="link">Expo's Privacy Policy</a> and <a href="https://supabase.com/privacy" target="_blank" rel="noopener" :class="link">Supabase's Privacy Policy</a>.</p>
+        <p :class="body" class="mt-3">Your friend sees the name, faction, and color you play under, and so can anyone who opens that match's invite link or code in the game. Each of you is sent only what your side of the battle can see. Notifications go through Expo's push service and on to Apple or Google, carrying the message itself, such as "Turn 3 against Sam: your move.", so the name you play under can appear in a friend's notifications. The server runs on Amazon Web Services and keeps its data with Supabase, both in the United States. Like any internet request, it sees your IP address, which it uses only in memory to limit how often requests can come in; it isn't logged or stored. We use this information only to run your matches, and we never sell it.</p>
+        <p :class="body" class="mt-3">
+          We keep your online data until you delete it. It doesn't expire, and matches stay on the server after they end. To delete it, use Delete Online Data in HexFleet's Settings or, if you no longer have the game, <NuxtLink :to="deleteDataPath('hexfleet')" :class="link">ask us by email</NuxtLink>. Matches you're still playing are forfeited, invites nobody has joined are called off, and your player ID, name, and push token are deleted. Your friends keep their side of your matches, so those matches stay on the server with your name replaced by "Deleted player" and no player ID, along with the faction, color, and moves you played. Battles already saved in Battle History on your device or a friend's stay there with the names they were saved with, and we can't reach them. Deleting the app or clearing your browser's data doesn't remove anything from the server, so use Delete Online Data first. See
+          <a href="https://expo.dev/privacy" target="_blank" rel="noopener" :class="link">Expo's Privacy Policy</a> and <a href="https://supabase.com/privacy" target="_blank" rel="noopener" :class="link">Supabase's Privacy Policy</a>.
+        </p>
       </section>
 
       <section :class="section">
@@ -101,6 +104,7 @@
 <script setup lang="ts">
 import { EMULATOR, ONLINE_GAMES, SITE, TASTIC_GAMES } from '~/constants/site'
 import { backLink, body, card, link } from '~/constants/styles'
+import { deleteDataPath } from '~/utils/appLinks'
 
 const UPDATED = 'November 18, 2026'
 // The Tastic games, then the online games that aren't one of them (HexFleet), so the policy names every game it covers
@@ -114,6 +118,6 @@ const list = 'list-disc list-outside ml-5 mt-3 space-y-1.5 text-sm text-zinc-400
 usePageSeo({
   path: '/privacy',
   title: `${SITE.name} | Privacy Policy`,
-  description: `The privacy policy for ${SITE.company.name}'s games and this site. No sign-in, ads, analytics or tracking, and nothing leaves your device but what online play and daily leaderboards need.`
+  description: `The privacy policy for ${SITE.company.name}'s games and this site. No sign-in, ads, analytics or tracking, and what you save in a game stays on your device, apart from what online play and daily leaderboards need.`
 })
 </script>

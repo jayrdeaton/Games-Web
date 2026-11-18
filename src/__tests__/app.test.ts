@@ -6,6 +6,7 @@ import { describe, expect, it, vi } from 'vitest'
 import App from '~/app.vue'
 import TipCard from '~/components/TipCard.vue'
 import { AUTHORS, CARTRIDGES, COMING_SOON, EMULATOR, MORE_TO_PLAY, ONLINE_GAMES, SECTIONS, SITE, TASTIC_GAMES } from '~/constants/site'
+import { deleteDataPath } from '~/utils/appLinks'
 import { HOME_DESCRIPTION } from '~/utils/seo'
 
 describe('home page', () => {
@@ -170,6 +171,26 @@ describe('privacy, terms and support', () => {
     expect(wrapper.html()).toContain(`mailto:${SITE.email}`)
   })
 
+  it('says who can see an online name, that online data stays until deleted, and links the delete page', async () => {
+    const wrapper = await mountSuspended(App, { route: '/privacy' })
+    const text = wrapper.find('main').text()
+    expect(text).toContain("anyone who opens that match's invite link or code")
+    expect(text).toContain('We keep your online data until you delete it')
+    expect(text).toContain('"Deleted player"')
+    expect(wrapper.find(`main a[href="${deleteDataPath('hexfleet')}"]`).exists()).toBe(true)
+  })
+
+  it('tells someone without HexFleet how to delete their online data, and what is deleted and what stays', async () => {
+    const wrapper = await mountSuspended(App, { route: deleteDataPath('hexfleet') })
+    const text = wrapper.find('main').text()
+    expect(wrapper.find('h1').text()).toContain('HexFleet')
+    for (const heading of ['In the Game', 'Without the Game', 'What Is Deleted', 'What Stays']) expect(text).toContain(heading)
+    expect(text).toContain('Delete Online Data')
+    expect(text).toContain('An invite code from one of your matches, or the name of a friend you played')
+    expect(wrapper.find(`main a[href^="mailto:${SITE.email}"]`).exists()).toBe(true)
+    expect(wrapper.find('main a[href="/privacy"]').exists()).toBe(true)
+  })
+
   it("links to every game's issue tracker", async () => {
     const wrapper = await mountSuspended(App, { route: '/support' })
     for (const repo of [...TASTIC_GAMES, ...CARTRIDGES].flatMap((g) => g.repo ?? [])) expect(wrapper.find(`a[href="${repo}/issues"]`).exists()).toBe(true)
@@ -185,6 +206,12 @@ describe('privacy, terms and support', () => {
     const support = await mountSuspended(App, { route: '/support' })
     expect(support.find('main a[href="/privacy"]').exists()).toBe(true)
     expect(support.find('main a[href="/terms"]').exists()).toBe(true)
+  })
+
+  it('names what leaves the device on the support page, never that the games collect nothing', async () => {
+    const text = (await mountSuspended(App, { route: '/support' })).find('main').text()
+    expect(text).toContain("HexFleet's online play and CardTastic's daily leaderboards")
+    expect(text).not.toContain("don't collect personal information")
   })
 
   it('says the code is MIT licensed and the names and art are reserved, never that the code is proprietary', async () => {
@@ -208,7 +235,7 @@ describe('privacy, terms and support', () => {
     expect(wrapper.find('main a[href="/#more"]').exists()).toBe(MORE_TO_PLAY.length > 0)
   })
 
-  it.each(['/privacy', '/terms', '/support'])('writes %s without em or en dashes, or a spaced hyphen used as one', async (route) => {
+  it.each(['/privacy', '/terms', '/support', deleteDataPath('hexfleet')])('writes %s without em or en dashes, or a spaced hyphen used as one', async (route) => {
     const text = (await mountSuspended(App, { route })).find('main').text()
     // Built from char codes so formatters can't turn the escapes back into literal dashes
     expect(text).not.toMatch(new RegExp(`[${String.fromCharCode(0x2013, 0x2014)}]`))
@@ -220,7 +247,8 @@ describe('page tags', () => {
   it.each([
     ['/privacy', 'Privacy Policy'],
     ['/terms', 'Terms of Use'],
-    ['/support', 'Support']
+    ['/support', 'Support'],
+    [deleteDataPath('hexfleet'), 'Delete HexFleet Online Data']
   ])('gives %s its own title, description and canonical link', async (route, name) => {
     await mountSuspended(App, { route })
     const canonical = () => document.querySelector('link[rel="canonical"]')?.getAttribute('href')

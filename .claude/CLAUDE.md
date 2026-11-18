@@ -103,3 +103,9 @@ HexFleet's online play (friends only for now; HexFleet's `ONLINE.md`, section 5)
 ## HexFleet on the hub (2026-11-18)
 
 HexFleet is in `TASTIC_GAMES` with its web build at `/hexfleet/` and online play in the browser (HexFleet's CLAUDE.md, "Web on games.infinitetoken.com"). Its repository is private, so `repo` is optional: a game without one has no Source button or issue link, and the support page and terms no longer say every game is open source. `origin` has to be the production alias its Vercel project actually gets. The privacy policy covers online play in a browser (the key kept in the browser's storage, no notifications there).
+
+## Deleting online data (2026-11-18)
+
+`/delete-data/hexfleet` (`src/pages/delete-data/hexfleet.vue`, `deleteDataPath` in `src/utils/appLinks.ts`) is the page Google Play's account deletion question needs: the steps in the game, the email route for someone without it, and what is deleted and what stays. It's in the sitemap and the prerender list through `ONLINE_GAMES`, so another online game needs its own page there or `seo.test.ts` and the build fail. It sits outside `/hexfleet/` on purpose: everything under that path goes to the game's proxy, the page's `_payload.json` included.
+
+The privacy policy and this page state what Tastic-Server does, so check them against it when its data changes (`deletePlayer` in `src/matches.ts`): nothing expires on its own, anyone with a match's invite code can look up its seats' names, factions and colors (`lobby`), and a deleted player's matches stay with their name scrubbed and no player ID. Battles a device saved in its Battle History keep the names they were saved with: the server can't reach them.

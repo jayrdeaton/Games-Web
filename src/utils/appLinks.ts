@@ -3,6 +3,10 @@ import { APPLE_TEAM_ID, type OnlineGame } from '../constants/site'
 /** An invite's path under a game's slug: /<slug>/join/<code> */
 export const invitePath = (slug: string) => `/${slug}/join`
 
+/** The page for deleting a game's online data without the game, which Google Play requires. Outside /<slug>/, so it never
+ *  meets the game's proxy, its page data included */
+export const deleteDataPath = (slug: string) => `/delete-data/${slug}`
+
 /** Where an invite's Play in Your Browser goes: the game's own Online screen under /<slug>/, with the code filled in */
 export const browserJoinPath = (slug: string, code: string) => `/${slug}/online?code=${encodeURIComponent(code)}`
 

@@ -32,7 +32,7 @@
 
       <div :class="card">
         <h2 class="font-semibold mb-1">Privacy and Terms</h2>
-        <p :class="body">The games don't collect personal information. Read the <NuxtLink to="/privacy" :class="link">privacy policy</NuxtLink> and the <NuxtLink to="/terms" :class="link">terms of use</NuxtLink>.</p>
+        <p :class="body">What you save in a game stays on your device. The exceptions are HexFleet's online play and CardTastic's daily leaderboards, which keep a name you choose and your matches or results on our server. Read the <NuxtLink to="/privacy" :class="link">privacy policy</NuxtLink> and the <NuxtLink to="/terms" :class="link">terms of use</NuxtLink>.</p>
       </div>
     </div>
   </main>
