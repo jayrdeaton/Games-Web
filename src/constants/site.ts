@@ -271,7 +271,7 @@ const ALL_CARTRIDGES: Cartridge[] = [
     description: 'Turn-based starship battles on a hex grid. Everyone plans in secret, then every ship moves and fires at once. Up to four ships, people and CPUs in any mix, all against all or in two teams, with four factions and their specials.',
     screenshot: '/images/6502/hexfleet.png',
     repo: 'https://github.com/jayrdeaton/6502-HexFleet',
-    cart: 'https://raw.githubusercontent.com/jayrdeaton/6502-HexFleet/a6184617b67147627a52a3b887773f4cff9dd17d/HexFleet.crt',
+    cart: 'https://raw.githubusercontent.com/jayrdeaton/6502-HexFleet/b47c9b00a777660672c3c9160f8917cf2b597b6b/HexFleet.crt',
     vdp: 'picovdp',
     controls: [
       { keys: 'Arrow keys or WASD', action: 'Move the cursor, and change options on the title screen' },
