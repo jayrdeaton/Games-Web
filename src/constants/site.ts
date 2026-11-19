@@ -268,10 +268,10 @@ const ALL_CARTRIDGES: Cartridge[] = [
     slug: 'hexfleet',
     name: 'HexFleet',
     author: AUTHORS.jay,
-    description: 'Turn-based starship battles on a hex grid. Everyone plans in secret, then every ship moves and fires at once. Four factions, each with its own special. Take on the CPU, or pass the keyboard to a friend.',
+    description: 'Turn-based starship battles on a hex grid. Everyone plans in secret, then every ship moves and fires at once. Up to four ships, people and CPUs in any mix, all against all or in two teams, with four factions and their specials.',
     screenshot: '/images/6502/hexfleet.png',
     repo: 'https://github.com/jayrdeaton/6502-HexFleet',
-    cart: 'https://raw.githubusercontent.com/jayrdeaton/6502-HexFleet/6a82cf5a2f10276fd0991378b4ae947f95e12f6b/HexFleet.crt',
+    cart: 'https://raw.githubusercontent.com/jayrdeaton/6502-HexFleet/a6184617b67147627a52a3b887773f4cff9dd17d/HexFleet.crt',
     vdp: 'picovdp',
     controls: [
       { keys: 'Arrow keys or WASD', action: 'Move the cursor, and change options on the title screen' },
