@@ -225,6 +225,8 @@ export const COMING_SOON: UpcomingGame[] = [
   // AirHockey and Pong went into PuckTastic (2026-11-11), Pong as Paddles and Breaker
 ]
 
+export type VideoCard = 'tms9918a' | 'picovdp'
+
 export type Cartridge = {
   /** The page's path: games.infinitetoken.com/6502/<slug> */
   slug: string
@@ -237,6 +239,8 @@ export type Cartridge = {
   /** The ROM image, pinned to a commit so a push to the cartridge's main branch never changes the live page.
    *  raw.githubusercontent.com sends Access-Control-Allow-Origin: *, which the emulator's cross-origin fetch needs. */
   cart: string
+  /** The video card it's built for, when that isn't the TMS9918A */
+  vdp?: VideoCard
   controls: { keys: string; action: string }[]
   /** Kept off the site for now (no card, page, or support line); drop the flag to bring it back */
   hidden?: boolean
@@ -261,15 +265,31 @@ const ALL_CARTRIDGES: Cartridge[] = [
     ]
   },
   {
-    slug: 'snake',
-    name: 'Snake',
+    slug: 'hexfleet',
+    name: 'HexFleet',
     author: AUTHORS.jay,
-    description: 'Grow by eating the food, and stay clear of the walls and your own tail. The title screen remembers your high score.',
-    screenshot: '/images/6502/snake.png',
-    repo: 'https://github.com/jayrdeaton/6502-Snake',
-    cart: 'https://raw.githubusercontent.com/jayrdeaton/6502-Snake/48f6a2afa2ee209cea7c96148f6e29f3d365ebd6/Snake.crt',
+    description: 'Turn-based starship battles on a hex grid. Everyone plans in secret, then every ship moves and fires at once. Four factions, each with its own special. Take on the CPU, or pass the keyboard to a friend.',
+    screenshot: '/images/6502/hexfleet.png',
+    repo: 'https://github.com/jayrdeaton/6502-HexFleet',
+    cart: 'https://raw.githubusercontent.com/jayrdeaton/6502-HexFleet/6a82cf5a2f10276fd0991378b4ae947f95e12f6b/HexFleet.crt',
+    vdp: 'picovdp',
     controls: [
-      { keys: 'Arrow keys or WASD', action: 'Move' },
+      { keys: 'Arrow keys or WASD', action: 'Move the cursor, and change options on the title screen' },
+      { keys: 'Space or Enter', action: 'Start, pick, and lock in' },
+      { keys: 'X', action: 'Swap Laser, Torpedo, and your special' }
+    ]
+  },
+  {
+    slug: 'lightcycles',
+    name: 'LightCycles',
+    author: AUTHORS.jay,
+    description: 'A light-cycle duel for one or two players. Turn sharply, stay off every trail, and be the last one riding.',
+    screenshot: '/images/6502/lightcycles.png',
+    repo: 'https://github.com/jayrdeaton/6502-LightCycles',
+    cart: 'https://raw.githubusercontent.com/jayrdeaton/6502-LightCycles/9e0ef7c52c663cd5187317d1b8b30119e486fb56/LightCycles.crt',
+    controls: [
+      { keys: 'W, A, S, D', action: 'Steer the first cycle' },
+      { keys: 'Arrow keys', action: 'Steer the second cycle' },
       { keys: 'Space', action: 'Start, pause, and resume' }
     ]
   },
@@ -290,22 +310,21 @@ const ALL_CARTRIDGES: Cartridge[] = [
     hidden: true
   },
   {
-    slug: 'lightcycles',
-    name: 'LightCycles',
+    slug: 'snake',
+    name: 'Snake',
     author: AUTHORS.jay,
-    description: 'A light-cycle duel for one or two players. Turn sharply, stay off every trail, and be the last one riding.',
-    screenshot: '/images/6502/lightcycles.png',
-    repo: 'https://github.com/jayrdeaton/6502-LightCycles',
-    cart: 'https://raw.githubusercontent.com/jayrdeaton/6502-LightCycles/9e0ef7c52c663cd5187317d1b8b30119e486fb56/LightCycles.crt',
+    description: 'Grow by eating the food, and stay clear of the walls and your own tail. The title screen remembers your high score.',
+    screenshot: '/images/6502/snake.png',
+    repo: 'https://github.com/jayrdeaton/6502-Snake',
+    cart: 'https://raw.githubusercontent.com/jayrdeaton/6502-Snake/48f6a2afa2ee209cea7c96148f6e29f3d365ebd6/Snake.crt',
     controls: [
-      { keys: 'W, A, S, D', action: 'Steer the first cycle' },
-      { keys: 'Arrow keys', action: 'Steer the second cycle' },
+      { keys: 'Arrow keys or WASD', action: 'Move' },
       { keys: 'Space', action: 'Start, pause, and resume' }
     ]
   }
 ]
 
-/** The carts on the site, in order: Wizards Lab first (Jay, 2026-10-22) */
+/** The carts on the site, in order: Wizards Lab first (Jay, 2026-10-22), then Jay's alphabetically */
 export const CARTRIDGES = ALL_CARTRIDGES.filter((c) => !c.hidden)
 
 /** A.C. Wright's AC6502 emulator, served from his GitHub Pages and built to be framed on other sites */

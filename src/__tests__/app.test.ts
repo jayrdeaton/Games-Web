@@ -114,12 +114,21 @@ describe('header', () => {
 })
 
 describe('6502 pages', () => {
-  it.each(CARTRIDGES)("frames the emulator with $name's cartridge on the TMS9918A, muted, with saves kept", async (cart) => {
+  it('runs HexFleet on the PICOVDP and every other cartridge on the TMS9918A', () => {
+    expect(CARTRIDGES.filter((c) => c.vdp === 'picovdp').map((c) => c.name)).toEqual(['HexFleet'])
+    expect(CARTRIDGES.filter((c) => c.vdp === undefined)).toHaveLength(CARTRIDGES.length - 1)
+  })
+
+  it('lists Wizards Lab first, then the rest alphabetically', () => {
+    expect(CARTRIDGES.map((c) => c.name)).toEqual(['Wizards Lab', 'HexFleet', 'LightCycles', 'Snake'])
+  })
+
+  it.each(CARTRIDGES)("frames the emulator with $name's cartridge on its video card, muted, with saves kept", async (cart) => {
     const wrapper = await mountSuspended(App, { route: `/6502/${cart.slug}` })
     const src = new URL(wrapper.find('iframe').attributes('src')!)
     expect(`${src.origin}${src.pathname}`).toBe(EMULATOR.embed)
     expect(src.searchParams.get('cart')).toBe(cart.cart)
-    expect(src.searchParams.get('vdp')).toBe('tms9918a')
+    expect(src.searchParams.get('vdp')).toBe(cart.vdp ?? 'tms9918a')
     expect(src.searchParams.get('muted')).toBe('1')
     expect(src.searchParams.get('persist')).toBe('1')
     for (const c of cart.controls) expect(wrapper.text()).toContain(c.keys)

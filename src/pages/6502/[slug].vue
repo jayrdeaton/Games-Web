@@ -31,7 +31,7 @@
       <div :class="card">
         <h2 :class="sectionHeading">About</h2>
         <p :class="body">
-          A ROM cartridge written in 6502 assembly by {{ cart.author.name }}, running in <a :href="EMULATOR.repo" target="_blank" rel="noopener" :class="link">{{ EMULATOR.author }}'s {{ EMULATOR.name }}</a
+          A cartridge written in 6502 assembly by {{ cart.author.name }}, running in <a :href="EMULATOR.repo" target="_blank" rel="noopener" :class="link">{{ EMULATOR.author }}'s {{ EMULATOR.name }}</a
           >.
         </p>
         <a :href="cart.repo" target="_blank" rel="noopener" :class="secondaryButton" class="mt-4">Source</a>
@@ -49,7 +49,7 @@ const route = useRoute()
 const found = CARTRIDGES.find((c) => c.slug === route.params.slug)
 if (!found) throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 const cart = found
-const src = embedUrl(EMULATOR.embed, cart.cart)
+const src = embedUrl(EMULATOR.embed, cart.cart, cart.vdp)
 
 usePageSeo({
   path: `/6502/${cart.slug}`,
