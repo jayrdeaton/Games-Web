@@ -114,9 +114,9 @@ describe('header', () => {
 })
 
 describe('6502 pages', () => {
-  it('runs HexFleet on the PICOVDP and every other cartridge on the TMS9918A', () => {
-    expect(CARTRIDGES.filter((c) => c.vdp === 'picovdp').map((c) => c.name)).toEqual(['HexFleet'])
-    expect(CARTRIDGES.filter((c) => c.vdp === undefined)).toHaveLength(CARTRIDGES.length - 1)
+  it('runs HexFleet and TrailDuel on the PICOVDP and every other cartridge on the TMS9918A', () => {
+    expect(CARTRIDGES.filter((c) => c.vdp === 'picovdp').map((c) => c.name)).toEqual(['HexFleet', 'TrailDuel'])
+    expect(CARTRIDGES.filter((c) => c.vdp === undefined)).toHaveLength(CARTRIDGES.length - 2)
   })
 
   it('lists Wizards Lab first, then the rest alphabetically', () => {

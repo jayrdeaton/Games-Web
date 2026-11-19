@@ -316,14 +316,16 @@ const ALL_CARTRIDGES: Cartridge[] = [
     formerSlugs: ['lightcycles'],
     name: 'TrailDuel',
     author: AUTHORS.jay,
-    description: 'Each rider leaves a trail behind them. Turn sharply, stay off every trail, and be the last one riding, against a friend or the CPU.',
+    description: 'Each rider leaves a trail behind them. Turn sharply, stay off every trail, and be the last one riding, against a friend or the CPU, at one of three speeds.',
     screenshot: '/images/6502/trailduel.png',
     repo: 'https://github.com/jayrdeaton/6502-TrailDuel',
-    cart: 'https://raw.githubusercontent.com/jayrdeaton/6502-TrailDuel/8558ccc5343511600471a43603cf3d7feba0e584/TrailDuel.crt',
+    cart: 'https://raw.githubusercontent.com/jayrdeaton/6502-TrailDuel/e536e5427a82d55ea5c734bca8af8f34f272c991/TrailDuel.crt',
+    vdp: 'picovdp',
     controls: [
+      { keys: 'Arrow keys or WASD', action: 'Pick the mode, speed, and colors on the title screen' },
       { keys: 'W, A, S, D', action: 'Steer the first rider' },
       { keys: 'Arrow keys', action: 'Steer the second rider' },
-      { keys: 'Space', action: 'Start, pause, and resume' }
+      { keys: 'Space or Enter', action: 'Start, pause, and resume' }
     ]
   }
 ]
