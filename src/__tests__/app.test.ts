@@ -120,7 +120,7 @@ describe('6502 pages', () => {
   })
 
   it('lists Wizards Lab first, then the rest alphabetically', () => {
-    expect(CARTRIDGES.map((c) => c.name)).toEqual(['Wizards Lab', 'HexFleet', 'LightCycles', 'Snake'])
+    expect(CARTRIDGES.map((c) => c.name)).toEqual(['Wizards Lab', 'HexFleet', 'Snake', 'TrailDuel'])
   })
 
   it.each(CARTRIDGES)("frames the emulator with $name's cartridge on its video card, muted, with saves kept", async (cart) => {

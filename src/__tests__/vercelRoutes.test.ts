@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { TASTIC_GAMES } from '~/constants/site'
-import { vercelRoutes } from '~/utils/vercelRoutes'
+import { CARTRIDGES, TASTIC_GAMES } from '~/constants/site'
+import { cartridgeRoutes, vercelRoutes } from '~/utils/vercelRoutes'
 
 // Vercel matches route src patterns as regular expressions against the request path, then substitutes $1 into dest
 const resolve = (path: string) => {
@@ -52,7 +52,18 @@ describe('vercelRoutes', () => {
   })
 
   it("leaves this site's own pages alone, including the 6502 pages that share a game's name", () => {
-    for (const path of ['/', '/privacy', '/support', '/6502/snake', '/6502/lightcycles', '/snakes', '/snake.png']) expect(resolve(path)).toBeNull()
+    for (const path of ['/', '/privacy', '/support', '/6502/snake', '/6502/trailduel', '/snakes', '/snake.png']) expect(resolve(path)).toBeNull()
+  })
+
+  it("redirects a renamed cartridge's old page to its new one, and nothing else under /6502", () => {
+    const routes = cartridgeRoutes(CARTRIDGES)
+    const go = (path: string) => {
+      const route = routes.find((r) => new RegExp(r.src).test(path))
+      return route && 'headers' in route ? { redirect: route.headers.Location, status: route.status } : null
+    }
+    expect(go('/6502/lightcycles')).toEqual({ redirect: '/6502/trailduel', status: 308 })
+    expect(go('/6502/lightcycles/')).toEqual({ redirect: '/6502/trailduel', status: 308 })
+    for (const { slug } of CARTRIDGES) expect(go(`/6502/${slug}`)).toBeNull()
   })
 
   it('points every game at an https origin with no trailing slash', () => {

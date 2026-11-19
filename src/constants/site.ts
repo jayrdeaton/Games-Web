@@ -244,6 +244,8 @@ export type Cartridge = {
   controls: { keys: string; action: string }[]
   /** Kept off the site for now (no card, page, or support line); drop the flag to bring it back */
   hidden?: boolean
+  /** Its old page paths after a rename: /6502/<former> 308s to /6502/<slug> (TrailDuel was LightCycles until 2026-11-19) */
+  formerSlugs?: string[]
 }
 
 const ALL_CARTRIDGES: Cartridge[] = [
@@ -280,20 +282,6 @@ const ALL_CARTRIDGES: Cartridge[] = [
     ]
   },
   {
-    slug: 'lightcycles',
-    name: 'LightCycles',
-    author: AUTHORS.jay,
-    description: 'A light-cycle duel for one or two players. Turn sharply, stay off every trail, and be the last one riding.',
-    screenshot: '/images/6502/lightcycles.png',
-    repo: 'https://github.com/jayrdeaton/6502-LightCycles',
-    cart: 'https://raw.githubusercontent.com/jayrdeaton/6502-LightCycles/9e0ef7c52c663cd5187317d1b8b30119e486fb56/LightCycles.crt',
-    controls: [
-      { keys: 'W, A, S, D', action: 'Steer the first cycle' },
-      { keys: 'Arrow keys', action: 'Steer the second cycle' },
-      { keys: 'Space', action: 'Start, pause, and resume' }
-    ]
-  },
-  {
     slug: 'pong',
     name: 'Pong',
     author: AUTHORS.jay,
@@ -319,6 +307,22 @@ const ALL_CARTRIDGES: Cartridge[] = [
     cart: 'https://raw.githubusercontent.com/jayrdeaton/6502-Snake/48f6a2afa2ee209cea7c96148f6e29f3d365ebd6/Snake.crt',
     controls: [
       { keys: 'Arrow keys or WASD', action: 'Move' },
+      { keys: 'Space', action: 'Start, pause, and resume' }
+    ]
+  },
+  {
+    // LightCycles until 2026-11-19, renamed to keep Tron's name off it (as DuelTastic did with Trap); its old page forwards here
+    slug: 'trailduel',
+    formerSlugs: ['lightcycles'],
+    name: 'TrailDuel',
+    author: AUTHORS.jay,
+    description: 'Each rider leaves a trail behind them. Turn sharply, stay off every trail, and be the last one riding, against a friend or the CPU.',
+    screenshot: '/images/6502/trailduel.png',
+    repo: 'https://github.com/jayrdeaton/6502-TrailDuel',
+    cart: 'https://raw.githubusercontent.com/jayrdeaton/6502-TrailDuel/8558ccc5343511600471a43603cf3d7feba0e584/TrailDuel.crt',
+    controls: [
+      { keys: 'W, A, S, D', action: 'Steer the first rider' },
+      { keys: 'Arrow keys', action: 'Steer the second rider' },
       { keys: 'Space', action: 'Start, pause, and resume' }
     ]
   }

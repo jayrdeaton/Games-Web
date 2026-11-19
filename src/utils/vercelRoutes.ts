@@ -9,6 +9,10 @@ export type VercelRoute = { src: string; dest: string } | { src: string; status:
 // game proxies, so they stay on this site once the game's web build is on the hub
 export const inviteRoutes = (games: { slug: string }[]): VercelRoute[] => games.map(({ slug }) => ({ src: `^/${slug}/join(?:/[^/]+)?/?$`, dest: `/${slug}/join` }))
 
+// A renamed 6502 cartridge's old page goes to its new one. Its old page isn't prerendered any more, so without this
+// /6502/<former> would 404
+export const cartridgeRoutes = (carts: { slug: string; formerSlugs?: string[] }[]): VercelRoute[] => carts.flatMap(({ slug, formerSlugs = [] }) => formerSlugs.map((former) => ({ src: `^/6502/${former}/?$`, status: 308, headers: { Location: `/6502/${slug}` } })))
+
 export const vercelRoutes = (games: { slug: string; origin: string; formerSlugs?: string[]; games?: { path: string; formerSlug?: string }[] }[]): VercelRoute[] =>
   games.flatMap(({ slug, origin, formerSlugs = [], games: packGames = [] }) => [
     // A game's old path after a rename (Solitaire became CardTastic, 2026-11-11) goes to the same page under its new one

@@ -6,7 +6,7 @@ import type {} from './.nuxt/nuxt.node.d.ts'
 import { CARTRIDGES, ONLINE_GAMES, SITE, TASTIC_GAMES } from './src/constants/site'
 import { deleteDataPath, invitePath } from './src/utils/appLinks'
 import { HOME_DESCRIPTION, HOME_TITLE, OG_IMAGE } from './src/utils/seo'
-import { inviteRoutes, vercelRoutes } from './src/utils/vercelRoutes'
+import { cartridgeRoutes, inviteRoutes, vercelRoutes } from './src/utils/vercelRoutes'
 const pkg: { displayName: string; description: string } = JSON.parse(readFileSync('./package.json', 'utf-8'))
 export default defineNuxtConfig({
   compatibilityDate: '2025-11-01',
@@ -68,7 +68,7 @@ export default defineNuxtConfig({
       ignore: TASTIC_GAMES.map((g) => new RegExp(`^/${g.slug}(?!/join(?:/|$))`))
     },
     vercel: {
-      config: { routes: [...inviteRoutes(ONLINE_GAMES), ...vercelRoutes(TASTIC_GAMES)] }
+      config: { routes: [...inviteRoutes(ONLINE_GAMES), ...cartridgeRoutes(CARTRIDGES), ...vercelRoutes(TASTIC_GAMES)] }
     }
   }
 })
