@@ -45,10 +45,10 @@ export default defineNuxtConfig({
       ],
       link: [
         // The .ico (48px, rendered from favicon.svg) is for browsers without SVG favicons
-        { rel: 'icon', href: '/favicon.ico', sizes: '48x48' },
+        { rel: 'icon', href: '/site-kit/brand/favicon.ico', sizes: '48x48' },
         // The .png (192px, also rendered from favicon.svg) is for crawlers and services that look for a PNG favicon
-        { rel: 'icon', type: 'image/png', sizes: '192x192', href: '/favicon.png' },
-        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+        { rel: 'icon', type: 'image/png', sizes: '192x192', href: '/site-kit/brand/favicon.png' },
+        { rel: 'icon', type: 'image/svg+xml', href: '/site-kit/brand/favicon.svg' },
         { rel: 'apple-touch-icon', href: '/images/icon-180.png' }
       ]
     }
@@ -57,6 +57,10 @@ export default defineNuxtConfig({
   typescript: {
     strict: true,
     typeCheck: true
+  },
+  // The favicons are Site-Kit's (/site-kit/brand/), linked below; browsers that ask for /favicon.ico without a link get its .ico
+  routeRules: {
+    '/favicon.ico': { redirect: { to: '/site-kit/brand/favicon.ico', statusCode: 301 } }
   },
   nitro: {
     prerender: {

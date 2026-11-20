@@ -7,7 +7,7 @@
       <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
         <div class="flex items-center gap-5 sm:gap-8 self-stretch min-w-0">
           <NuxtLink to="/" :aria-label="SITE.name" class="flex items-center gap-3 group shrink-0" @click="onHome && toTop()">
-            <img src="/images/logo.svg" alt="" width="34" height="24" class="h-6 w-auto transition-opacity group-hover:opacity-80" />
+            <img src="/site-kit/brand/logo.svg" alt="" width="34" height="24" class="h-6 w-auto transition-opacity group-hover:opacity-80" />
             <span class="hidden sm:inline font-semibold text-white tracking-tight">{{ SITE.name }}</span>
           </NuxtLink>
 
@@ -40,7 +40,7 @@
     <footer class="border-t border-white/5 py-12 px-6">
       <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
         <div class="flex items-center gap-3">
-          <img src="/images/logo.svg" alt="" width="23" height="16" class="h-4 w-auto opacity-40" />
+          <img src="/site-kit/brand/logo.svg" alt="" width="23" height="16" class="h-4 w-auto opacity-40" />
           <span class="text-zinc-600 text-sm">© {{ year }} Infinite Token LLC, Lincoln, NE</span>
         </div>
         <nav aria-label="Footer" class="flex flex-wrap gap-6 justify-center text-sm">
