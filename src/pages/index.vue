@@ -31,7 +31,7 @@
         <div :class="cardRow">
           <div v-for="game in TASTIC_GAMES" :key="game.slug" :class="[gameCard, cardWidth]" class="flex flex-col">
             <div class="flex items-center gap-4 mb-3">
-              <img :src="game.icon" :alt="`${game.name} icon`" width="56" height="56" class="w-14 h-14" />
+              <AppIcon :icon="game.icon" :size="56" />
               <div>
                 <h3 class="text-lg font-semibold text-white">{{ game.name }}</h3>
                 <GameByline :author="game.author" />
@@ -65,7 +65,7 @@
         <div :class="cardRow">
           <div v-for="game in COMING_SOON" :key="game.name" :class="[card, cardWidth]" class="flex flex-col">
             <div class="flex items-start justify-between gap-2 mb-3">
-              <img :src="game.icon" :alt="`${game.name} icon`" width="48" height="48" class="w-12 h-12" />
+              <AppIcon :icon="game.icon" :size="48" />
               <span :class="badge">Coming Soon</span>
             </div>
             <h3 class="text-lg font-semibold text-white">{{ game.name }}</h3>
@@ -116,7 +116,7 @@
         <div :class="cardRow">
           <div v-for="app in MORE_TO_PLAY" :key="app.name" :class="[gameCard, cardWidth]" class="flex flex-col">
             <div class="flex items-center gap-4 mb-3">
-              <img :src="app.icon" :alt="`${app.name} icon`" width="56" height="56" class="w-14 h-14" />
+              <AppIcon :icon="app.icon" :size="56" />
               <div>
                 <h3 class="text-lg font-semibold text-white">{{ app.name }}</h3>
                 <GameByline :author="app.author" />

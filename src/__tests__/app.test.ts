@@ -316,6 +316,9 @@ describe('site content', () => {
 
   it('pins every cartridge to a commit and ships every image it references', () => {
     for (const cart of CARTRIDGES) expect(cart.cart).toMatch(/^https:\/\/raw\.githubusercontent\.com\/[\w-]+\/[\w-]+\/[0-9a-f]{40}\/[\w/-]+\.crt$/)
-    for (const image of [...TASTIC_GAMES.map((g) => g.icon), ...MORE_TO_PLAY.map((a) => a.icon), ...COMING_SOON.map((g) => g.icon), ...CARTRIDGES.map((c) => c.screenshot)]) expect(existsSync(`public${image}`)).toBe(true)
+    for (const image of CARTRIDGES.map((c) => c.screenshot)) expect(existsSync(`public${image}`)).toBe(true)
+    // The games' icons come from Site-Kit, which serves them from its own public/
+    const icons = [...TASTIC_GAMES, ...MORE_TO_PLAY, ...COMING_SOON].flatMap(({ icon }) => [icon.src, icon.light].filter((src) => src !== undefined))
+    for (const icon of icons) expect(existsSync(`node_modules/@infinitetoken/site-kit/public${icon}`), icon).toBe(true)
   })
 })

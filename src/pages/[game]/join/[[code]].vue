@@ -11,7 +11,7 @@
       >
     </div>
 
-    <img :src="game.icon" alt="" class="w-20 h-20 mb-4" />
+    <AppIcon :icon="game.icon" :size="80" class="mb-4" />
     <h1 class="text-3xl font-bold tracking-tight text-white mb-2">You're Invited to a {{ game.name }} Match</h1>
     <p class="text-zinc-400 leading-relaxed mb-8">{{ intro }}</p>
 

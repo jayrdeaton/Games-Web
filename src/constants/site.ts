@@ -1,3 +1,4 @@
+import { type AppIconImage, GAME_ICONS } from '@infinitetoken/site-kit/games'
 import type { Platforms } from '@infinitetoken/site-kit/platforms'
 
 export const SITE = {
@@ -55,8 +56,8 @@ export type TasticGame = StoreLinks & {
    *  alone was taken) */
   storeName: string
   description: string
-  /** The game's splash art (assets/images/splash-dark.png at 192px), transparent, drawn bare on the dark card */
-  icon: string
+  /** Its icon from Site-Kit's GAME_ICONS, the same on every site, drawn by Site-Kit's AppIcon */
+  icon: AppIconImage
   /** Its public source. Left out while the repository is private, and the card and support page then have no link to it */
   repo?: string
   /** The game's own production deployment, which /<slug>/ is proxied to (see src/utils/vercelRoutes.ts). The
@@ -77,7 +78,7 @@ export const TASTIC_GAMES: TasticGame[] = [
     author: AUTHORS.jay,
     storeName: 'HexFleet',
     description: 'Turn-based starship battles on a hex grid. Plan in secret, then watch every shot play out at once. Take on the CPU, pass the screen, or challenge a friend online.',
-    icon: '/images/tastic/hexfleet.png',
+    icon: GAME_ICONS.hexfleet,
     origin: 'https://hexfleet.vercel.app',
     platforms: { ios: 'soon', android: 'soon' }
   },
@@ -87,7 +88,7 @@ export const TASTIC_GAMES: TasticGame[] = [
     author: AUTHORS.jay,
     storeName: 'HangmanTastic',
     description: 'The classic word-guessing game. 19k+ puzzles across 50+ packs, hand-drawn art, and Pass & Play with friends.',
-    icon: '/images/tastic/hangman.png',
+    icon: GAME_ICONS.hangman,
     repo: 'https://github.com/jayrdeaton/Hangman',
     origin: 'https://hangman-teal-psi.vercel.app',
     platforms: { ios: 'soon', android: 'soon' }
@@ -98,7 +99,7 @@ export const TASTIC_GAMES: TasticGame[] = [
     author: AUTHORS.jay,
     storeName: 'CardTastic: Solitaire & More',
     description: 'Twenty card games in one: eleven solitaire games and nine to play together, from Klondike and FreeCell to Gin Rummy and Crazy Eights.',
-    icon: '/images/tastic/cardtastic.png',
+    icon: GAME_ICONS.cardtastic,
     repo: 'https://github.com/jayrdeaton/CardTastic',
     origin: 'https://cardtastic-web.vercel.app',
     platforms: { ios: 'soon', android: 'soon' },
@@ -111,7 +112,7 @@ export const TASTIC_GAMES: TasticGame[] = [
     author: AUTHORS.jay,
     storeName: 'DuelTastic',
     description: 'Four duel games in one: Trap, Turf, Tag and Snake. Take on the CPU, or face a friend on one shared screen.',
-    icon: '/images/tastic/dueltastic.png',
+    icon: GAME_ICONS.dueltastic,
     repo: 'https://github.com/jayrdeaton/DuelTastic',
     origin: 'https://dueltastic.vercel.app',
     platforms: { ios: 'https://apps.apple.com/app/id6834025841', android: 'soon' },
@@ -129,7 +130,7 @@ export const TASTIC_GAMES: TasticGame[] = [
     author: AUTHORS.jay,
     storeName: 'PuckTastic',
     description: 'Four tabletop puck games in one: Box Hockey, Air Hockey, Paddles and Breaker. Take on the CPU, or a friend across the table.',
-    icon: '/images/tastic/pucktastic.png',
+    icon: GAME_ICONS.pucktastic,
     repo: 'https://github.com/jayrdeaton/PuckTastic',
     origin: 'https://pucktastic.vercel.app',
     // The BoxHockey app grown into four games (2026-11-11), so it keeps BoxHockey's App Store listing
@@ -155,8 +156,8 @@ export const APPLE_TEAM_ID = '6J8NCZC8G6'
 export type OnlineGame = {
   slug: string
   name: string
-  /** Its splash art at 192px, as the Tastic cards draw it */
-  icon: string
+  /** Its icon from Site-Kit's GAME_ICONS, as the Tastic cards draw it */
+  icon: AppIconImage
   /** The link preview every one of its invites shares (1200x630), rendered from scripts/<slug>-invite.html */
   ogImage: string
   /** The app's URL scheme, for Open in <name>: iOS doesn't open an app from a universal link typed or pasted into Safari */
@@ -178,7 +179,7 @@ export const ONLINE_GAMES: OnlineGame[] = [
   {
     slug: 'hexfleet',
     name: 'HexFleet',
-    icon: '/images/tastic/hexfleet.png',
+    icon: GAME_ICONS.hexfleet,
     ogImage: '/images/hexfleet-invite.png',
     scheme: 'hexfleet',
     bundleId: 'com.jayrdeaton.HexFleet',
@@ -192,8 +193,8 @@ export type OtherApp = StoreLinks & {
   name: string
   author: Author
   description: string
-  /** Its splash art at 192px, like the Tastic icons */
-  icon: string
+  /** Its icon from Site-Kit's GAME_ICONS, like the Tastic games' */
+  icon: AppIconImage
   /** Its own site: these aren't proxied under /<slug>/ */
   url: `https://${string}`
   repo: string
@@ -206,7 +207,7 @@ export const MORE_TO_PLAY: OtherApp[] = [
     name: 'Swirlio',
     author: AUTHORS.jay,
     description: "A hands-on kaleidoscope you can push, pinch, and twist. Fill it with colors and bouncing beads and mirror it up to twelve ways. There's nothing to win, just a pattern to play with.",
-    icon: '/images/swirlio.png',
+    icon: GAME_ICONS.swirlio,
     url: 'https://swirlio.infinitetoken.com',
     repo: 'https://github.com/jayrdeaton/Swirlio',
     platforms: { ios: 'https://apps.apple.com/app/id6824430243', android: 'soon' }
@@ -217,8 +218,8 @@ export type UpcomingGame = {
   name: string
   author: Author
   description: string
-  /** The game's splash art (transparent), like the Tastic icons */
-  icon: string
+  /** Its icon, added to Site-Kit's GAME_ICONS like the Tastic games' */
+  icon: AppIconImage
   repo: string
 }
 
