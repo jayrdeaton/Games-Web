@@ -3,7 +3,7 @@ import type { Platforms } from '@infinitetoken/site-kit/platforms'
 export const SITE = {
   name: 'Infinite Token Games',
   url: 'https://games.infinitetoken.com',
-  tagline: 'Free games with no ads, no accounts, and no tracking. Play them right here in your browser.',
+  tagline: 'Free games with no ads, no sign-in, and no tracking. Play them right here in your browser.',
   email: 'support@infinitetoken.com',
   company: { name: 'Infinite Token', url: 'https://infinitetoken.com' },
   /** A Stripe Payment Link (customers choose what to pay) on Infinite Token's account. The tip card, the footer's Tip
@@ -68,7 +68,30 @@ export type TasticGame = StoreLinks & {
   games?: PackGame[]
 }
 
+/** HexFleet first, then the Tastic games alphabetically, Hangman ahead of CardTastic since it's becoming AlphaTastic (Jay, 2026-11-20).
+ *  Every surface lists the games in this order, and so does the preview card (scripts/og-image.html). */
 export const TASTIC_GAMES: TasticGame[] = [
+  {
+    slug: 'hexfleet',
+    name: 'HexFleet',
+    author: AUTHORS.jay,
+    storeName: 'HexFleet',
+    description: 'Turn-based starship battles on a hex grid. Plan in secret, then watch every shot play out at once. Take on the CPU, pass the screen, or challenge a friend online.',
+    icon: '/images/tastic/hexfleet.png',
+    origin: 'https://hexfleet.vercel.app',
+    platforms: { ios: 'soon', android: 'soon' }
+  },
+  {
+    slug: 'hangman',
+    name: 'Hangman',
+    author: AUTHORS.jay,
+    storeName: 'HangmanTastic',
+    description: 'The classic word-guessing game. 19k+ puzzles across 50+ packs, hand-drawn art, and Pass & Play with friends.',
+    icon: '/images/tastic/hangman.png',
+    repo: 'https://github.com/jayrdeaton/Hangman',
+    origin: 'https://hangman-teal-psi.vercel.app',
+    platforms: { ios: 'soon', android: 'soon' }
+  },
   {
     slug: 'cardtastic',
     name: 'CardTastic',
@@ -99,27 +122,6 @@ export const TASTIC_GAMES: TasticGame[] = [
       { name: 'Tag', path: 'loadout/tag' },
       { name: 'Snake', path: 'loadout/snake', formerSlug: 'snake' }
     ]
-  },
-  {
-    slug: 'hangman',
-    name: 'Hangman',
-    author: AUTHORS.jay,
-    storeName: 'HangmanTastic',
-    description: 'The classic word-guessing game. 19k+ puzzles across 50+ packs, hand-drawn art, and Pass & Play with friends.',
-    icon: '/images/tastic/hangman.png',
-    repo: 'https://github.com/jayrdeaton/Hangman',
-    origin: 'https://hangman-teal-psi.vercel.app',
-    platforms: { ios: 'soon', android: 'soon' }
-  },
-  {
-    slug: 'hexfleet',
-    name: 'HexFleet',
-    author: AUTHORS.jay,
-    storeName: 'HexFleet',
-    description: 'Turn-based starship battles on a hex grid. Plan in secret, then watch every shot play out at once. Take on the CPU, pass the screen, or challenge a friend online.',
-    icon: '/images/tastic/hexfleet.png',
-    origin: 'https://hexfleet.vercel.app',
-    platforms: { ios: 'soon', android: 'soon' }
   },
   {
     slug: 'pucktastic',

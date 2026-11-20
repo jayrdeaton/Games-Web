@@ -21,12 +21,19 @@
 
       <section :class="section">
         <h2 :class="heading">What the Games Are</h2>
-        <p :class="body">The games are free. They have no ads, no accounts or sign-in, and nothing to buy. Player profiles, progress, stats, and settings are saved on your device, not with us. The <NuxtLink to="/privacy" :class="link">privacy policy</NuxtLink> explains the little that does leave your device, such as the mobile apps' check for game updates.</p>
+        <p :class="body">The games are free. They have no ads, no sign-in, and nothing to buy. Player profiles, progress, stats, and settings are saved on your device, not with us, except what online play and daily leaderboards send when you use them. The <NuxtLink to="/privacy" :class="link">privacy policy</NuxtLink> explains the little that does leave your device, such as the mobile apps' check for game updates.</p>
       </section>
 
       <section :class="section">
         <h2 :class="heading">Playing the Games</h2>
-        <p :class="body">The games are for personal play, on your own or with the people around you. Don't use them or this site to break the law, or to disrupt the site for other players.</p>
+        <p :class="body">The games are for personal play, on your own, with the people around you, or with friends online. Don't use them or this site to break the law, or to disrupt the site for other players.</p>
+      </section>
+
+      <section :class="section">
+        <h2 :class="heading">Online Play and Leaderboards</h2>
+        <p :class="body">HexFleet's online play and CardTastic's daily leaderboards run on our own game server. You don't sign in: the game makes an anonymous player for you the first time you use them, and you can delete it, with what the server keeps, from that game's Settings. The <NuxtLink to="/privacy" :class="link">privacy policy</NuxtLink> lists what that is.</p>
+        <p :class="body" class="mt-3">The people in your HexFleet matches see the name you play under, and everyone playing CardTastic's daily deals sees your tag on the leaderboard. Don't pick a name or tag that's offensive or pretends to be someone else, and don't tamper with the games or the server to cheat or to disrupt other players' matches and leaderboards. We may remove a name, tag, result, or player that breaks these terms.</p>
+        <p :class="body" class="mt-3">These features need our server, so they won't always be available, and we may change or end them.</p>
       </section>
 
       <section :class="section">
@@ -44,7 +51,7 @@
       <section :class="section">
         <h2 :class="heading">No Warranty</h2>
         <p :class="body">The games and this site are provided as is, without warranty of any kind, express or implied. We don't promise they'll be free of bugs, always available, or suited to any particular purpose. If something breaks, <NuxtLink to="/support" :class="link">tell us</NuxtLink> and we'll try to fix it.</p>
-        <p :class="body" class="mt-3">Your progress is saved only on your device, so if it's lost, for example when a game is deleted or your browser data is cleared, we can't restore it.</p>
+        <p :class="body" class="mt-3">Your progress is saved on your device, so if it's lost, for example when a game is deleted or your browser data is cleared, we can't restore it.</p>
       </section>
 
       <section :class="section">
@@ -81,7 +88,7 @@
 import { EMULATOR, MORE_TO_PLAY, SECTIONS, SITE } from '~/constants/site'
 import { backLink, body, card, link } from '~/constants/styles'
 
-const UPDATED = 'November 18, 2026'
+const UPDATED = 'November 20, 2026'
 // The legal name, as in the footer and every game's LICENSE
 const COMPANY = `${SITE.company.name} LLC`
 const moreLabel = SECTIONS.find((s) => s.id === 'more')!.label
@@ -92,6 +99,6 @@ const heading = 'text-lg font-semibold text-white mb-3'
 usePageSeo({
   path: '/terms',
   title: `${SITE.name} | Terms of Use`,
-  description: `The terms of use for ${SITE.company.name}'s games and this site. The games are free, with no ads, no accounts and nothing to buy.`
+  description: `The terms of use for ${SITE.company.name}'s games and this site. The games are free, with no ads, no sign-in and nothing to buy.`
 })
 </script>

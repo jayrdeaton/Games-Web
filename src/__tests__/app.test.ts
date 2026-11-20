@@ -1,4 +1,4 @@
-import { existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 
 import { mountSuspended } from '@nuxt/test-utils/runtime'
 import { describe, expect, it, vi } from 'vitest'
@@ -287,6 +287,13 @@ describe('site content', () => {
 
   it('uses https for every link', () => {
     for (const u of all.match(/"(https?:[^"]+)"/g) ?? []) expect(u).toMatch(/^"https:\/\//)
+  })
+
+  it('lists HexFleet first, then the Tastic games with Hangman ahead of CardTastic', () => {
+    // Hangman is becoming AlphaTastic (Jay, 2026-11-20); the preview card's icons and the other sites follow this order
+    expect(TASTIC_GAMES.map((g) => g.name)).toEqual(['HexFleet', 'Hangman', 'CardTastic', 'DuelTastic', 'PuckTastic'])
+    const card = readFileSync('scripts/og-image.html', 'utf-8')
+    expect([...card.matchAll(/og-icons\/(\w+)\.png/g)].map((m) => m[1])).toEqual(TASTIC_GAMES.map((g) => g.slug))
   })
 
   it('names each store listing after its game, plus "Tastic" unless it already ends in it', () => {

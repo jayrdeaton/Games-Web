@@ -1,6 +1,9 @@
 <!doctype html>
 <!-- The link preview card (public/images/og.png, 1200x630) that social sites, chat apps and search results show for every
-     page, laid out like www.infinitetoken.com's. Rerender after changing it (or a Tastic icon), from the repo root:
+     page, laid out like www.infinitetoken.com's. The icons are the games' own app icons (scripts/og-icons/, each game's
+     assets/images/icon-dark.png, or HexFleet's icon.png, resized to 144px with sips -Z 144), rounded like a home screen:
+     in TASTIC_GAMES' order (src/constants/site.ts), which a test pins.
+     Recopy one when its game's icon changes. Rerender after changing it, from the repo root:
      "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless --hide-scrollbars --window-size=1200,630 \
        --screenshot="$PWD/public/images/og.png" "file://$PWD/scripts/og-image.html" -->
 <html lang="en">
@@ -36,7 +39,7 @@
       }
       p { margin-top: 22px; font-size: 30px; line-height: 1.35; color: #a1a1aa; max-width: 640px; }
       .icons { display: flex; gap: 18px; margin-top: 34px; }
-      .icons img { width: 72px; height: 72px; }
+      .icons img { width: 72px; height: 72px; border-radius: 16px; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12); }
     </style>
   </head>
   <body>
@@ -46,12 +49,13 @@
     <img class="rings" src="../public/images/logo.svg" alt="" />
     <div class="text">
       <h1>Infinite Token<br /><span class="games">Games</span></h1>
-      <p>Free games with no ads, no accounts, and no tracking. Play them in your browser.</p>
+      <p>Free games with no ads, no sign-in, and no tracking. Play them in your browser.</p>
       <div class="icons">
-        <img src="../public/images/tastic/cardtastic.png" alt="" />
-        <img src="../public/images/tastic/dueltastic.png" alt="" />
-        <img src="../public/images/tastic/hangman.png" alt="" />
-        <img src="../public/images/tastic/pucktastic.png" alt="" />
+        <img src="og-icons/hexfleet.png" alt="" />
+        <img src="og-icons/hangman.png" alt="" />
+        <img src="og-icons/cardtastic.png" alt="" />
+        <img src="og-icons/dueltastic.png" alt="" />
+        <img src="og-icons/pucktastic.png" alt="" />
       </div>
     </div>
   </body>
