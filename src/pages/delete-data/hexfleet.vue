@@ -19,10 +19,10 @@
         <h2 :class="heading">In the Game</h2>
         <ol :class="[list, 'list-decimal']">
           <li>Open HexFleet on the device, or in the browser, you play online with.</li>
-          <li>Open Settings with the gear icon.</li>
-          <li>Under Online, choose Delete Online Data, then confirm with Delete.</li>
+          <li>Open Settings with the gear icon, then your profile: the Profile row, or Profiles and then your profile if there's more than one.</li>
+          <li>On your profile's Edit Profile screen, under Online, choose Delete Online Data, then confirm with Delete.</li>
         </ol>
-        <p :class="body" class="mt-3">It takes effect right away and can't be undone. The option only appears where you've played online.</p>
+        <p :class="body" class="mt-3">It deletes that profile's online data, so do it for each profile that has played online. Deleting a profile in the game deletes its online data too. It takes effect right away and can't be undone. The option only appears for a profile that has played online.</p>
       </section>
 
       <section :class="section">
