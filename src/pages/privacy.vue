@@ -48,12 +48,12 @@
         <h2 :class="heading">Daily Leaderboards in CardTastic</h2>
         <p :class="body">CardTastic's daily deals give everyone the same shuffle and rank the day's winners. They run on the same game server as HexFleet's online play, with the same hosting and the same handling of your IP address. Nothing is sent until you start a daily deal, and it never asks for an email or a password. The server keeps:</p>
         <ul :class="list">
-          <li>Your player profile's name, tag (one emoji or up to three characters), and color</li>
-          <li>A random player ID. Your device keeps a signed key that proves the ID is yours: in the app's secure storage, or in your browser's storage for this site</li>
+          <li>A random player ID for each player profile that plays a daily deal. Your device keeps a signed key that proves the ID is yours: in the app's secure storage, or in your browser's storage for this site</li>
+          <li>Your profile's tag (one emoji or up to three characters) and color, only once you choose to show your wins on the leaderboards. Your profile's name is never sent</li>
           <li>When you started each daily deal and, if you win it, when you finished, with your moves, time, and score</li>
           <li>The moves of your winning game, which the server replays to check the result</li>
         </ul>
-        <p :class="body" class="mt-3">Leaderboards are visible to everyone playing. They show your tag and color with your moves, time, and score, and never your name. Tags are checked against a list of offensive words and emoji. We use this information only to run the leaderboards, and we never sell it. Deleting your online data in CardTastic's Settings removes your player ID and everything you've posted to the boards.</p>
+        <p :class="body" class="mt-3">Leaderboards are visible to everyone playing. They show your tag and color with your moves, time, and score, and never your name. Tags are checked against a list of offensive words and emoji. We use this information only to run the leaderboards, and we never sell it. To delete it, use Delete Online Data on a profile's Edit Profile screen in CardTastic (Settings, then the profile), which removes that profile's player ID and everything it posted to the boards, or delete the profile in the game, which does the same.</p>
       </section>
 
       <section :class="section">
@@ -83,7 +83,7 @@
 
       <section :class="section">
         <h2 :class="heading">Children</h2>
-        <p :class="body">The games are made for players of all ages. Played on one device, they collect nothing from anyone. HexFleet's online play and CardTastic's daily leaderboards keep only what's listed above: a name the player picks, which doesn't have to be a real one, and their matches or daily results. Leaderboards show a tag and color, never the name. There's no chat, and neither asks for contact details.</p>
+        <p :class="body">The games are made for players of all ages. Played on one device, they collect nothing from anyone. HexFleet's online play and CardTastic's daily leaderboards keep only what's listed above: in HexFleet a name the player picks, which doesn't have to be a real one, and their matches; in CardTastic no name at all, only daily results and, if the player chooses, a tag and color for the leaderboards. There's no chat, and neither asks for contact details.</p>
       </section>
 
       <section :class="section">
