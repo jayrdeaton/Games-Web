@@ -80,7 +80,7 @@ export const TASTIC_GAMES: TasticGame[] = [
     description: 'Turn-based starship battles on a hex grid. Plan in secret, then watch every shot play out at once. Take on the CPU, pass the screen, or challenge a friend online.',
     icon: GAME_ICONS.hexfleet,
     origin: 'https://hexfleet.vercel.app',
-    platforms: { ios: 'soon', android: 'soon' }
+    platforms: { ios: 'https://apps.apple.com/app/id6836124551', android: 'soon' }
   },
   {
     slug: 'hangman',
@@ -184,7 +184,7 @@ export const ONLINE_GAMES: OnlineGame[] = [
     scheme: 'hexfleet',
     bundleId: 'com.jayrdeaton.HexFleet',
     androidPackage: 'com.jayrdeaton.HexFleet',
-    get: { ios: 'soon', android: 'soon' },
+    get: { ios: 'https://apps.apple.com/app/id6836124551', android: 'soon' },
     androidFingerprints: []
   }
 ]
