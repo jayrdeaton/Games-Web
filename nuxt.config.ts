@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs'
 import tailwindcss from '@tailwindcss/vite'
 
 import type {} from './.nuxt/nuxt.node.d.ts'
-import { CARTRIDGES, ONLINE_GAMES, SITE, TASTIC_GAMES } from './src/constants/site'
+import { CARTRIDGES, DELETE_DATA_SLUGS, ONLINE_GAMES, SITE, TASTIC_GAMES } from './src/constants/site'
 import { deleteDataPath, invitePath } from './src/utils/appLinks'
 import { HOME_DESCRIPTION, HOME_TITLE, OG_IMAGE } from './src/utils/seo'
 import { cartridgeRoutes, inviteRoutes, vercelRoutes } from './src/utils/vercelRoutes'
@@ -64,8 +64,8 @@ export default defineNuxtConfig({
   },
   nitro: {
     prerender: {
-      // The online games' invite and delete-data pages, and the two files that tie their links to the apps (src/utils/appLinks.ts)
-      routes: ['/', '/privacy', '/terms', '/support', '/sitemap.xml', ...CARTRIDGES.map((c) => `/6502/${c.slug}`), ...ONLINE_GAMES.flatMap((g) => [invitePath(g.slug), deleteDataPath(g.slug)]), '/.well-known/apple-app-site-association', '/.well-known/assetlinks.json'],
+      // The online games' invite pages, every game's delete-data page (DELETE_DATA_SLUGS), and the two files that tie their links to the apps (src/utils/appLinks.ts)
+      routes: ['/', '/privacy', '/terms', '/support', '/sitemap.xml', ...CARTRIDGES.map((c) => `/6502/${c.slug}`), ...ONLINE_GAMES.map((g) => invitePath(g.slug)), ...DELETE_DATA_SLUGS.map((slug) => deleteDataPath(slug)), '/.well-known/apple-app-site-association', '/.well-known/assetlinks.json'],
       crawlLinks: true,
       // The Tastic games are other deployments behind the proxy routes below, not pages of this site, apart from an online
       // game's invite page at /<slug>/join (a plain string here would match it too: Nitro compares by prefix)

@@ -189,6 +189,11 @@ export const ONLINE_GAMES: OnlineGame[] = [
   }
 ]
 
+/** Every game that keeps data on the game server, by slug: the online games, and CardTastic for its daily leaderboards
+ *  (no invites, so it isn't one of ONLINE_GAMES). Each has a page for deleting that data without the game,
+ *  src/pages/delete-data/<slug>.vue, which Google Play's account deletion question links to */
+export const DELETE_DATA_SLUGS = [...ONLINE_GAMES.map((g) => g.slug), 'cardtastic']
+
 export type OtherApp = StoreLinks & {
   name: string
   author: Author

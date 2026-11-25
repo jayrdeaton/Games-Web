@@ -53,7 +53,7 @@
           <li>When you started each daily deal and, if you win it, when you finished, with your moves, time, and score</li>
           <li>The moves of your winning game, which the server replays to check the result</li>
         </ul>
-        <p :class="body" class="mt-3">Leaderboards are visible to everyone playing. They show your tag and color with your moves, time, and score, and never your name. Tags are checked against a list of offensive words and emoji. We use this information only to run the leaderboards, and we never sell it. To delete it, use Delete Online Data on a profile's Edit Profile screen in CardTastic (Settings, then the profile), which removes that profile's player ID and everything it posted to the boards, or delete the profile in the game, which does the same.</p>
+        <p :class="body" class="mt-3">Leaderboards are visible to everyone playing. They show your tag and color with your moves, time, and score, and never your name. Tags are checked against a list of offensive words and emoji. We use this information only to run the leaderboards, and we never sell it. To delete it, use Delete Online Data on a profile's Edit Profile screen in CardTastic (Settings, then the profile), which removes that profile's player ID and everything it posted to the boards, or delete the profile in the game, which does the same. If you no longer have the game, <NuxtLink :to="deleteDataPath('cardtastic')" :class="link">ask us by email</NuxtLink>.</p>
       </section>
 
       <section :class="section">
